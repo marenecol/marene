@@ -59,7 +59,7 @@
         .carousel-slide { width: 33.333%; height: 100%; position: relative; flex-shrink: 0; }
         .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        .carousel-overlay-content { position: absolute; inset: 0; background: rgba(3a, 1e, 24, 0.25); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem 10%; color: #fff; text-align: left; }
+        .carousel-overlay-content { position: absolute; inset: 0; background: rgba(58, 30, 36, 0.25); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem 10%; color: #fff; text-align: left; }
         .carousel-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; margin: 0 0 0.5rem; letter-spacing: .05em; text-transform: uppercase; line-height: 1.1; }
         .carousel-subtitle { font-size: clamp(0.85rem, 2vw, 1.1rem); margin: 0 0 1.5rem; max-width: 500px; color: rgba(255,255,255,0.9); font-weight: 300; }
         
@@ -95,7 +95,7 @@
         .product-card-price { margin: 0; color: var(--accent-main); font-size: .85rem; font-weight: 600; }
 
         /* DETALLE OVERLAY */
-        .detail-overlay { position: fixed; inset: 0; background: rgba(5a, 1e, 24, 0.4); backdrop-filter: blur(4px); display: grid; place-items: center; padding: 1rem; z-index: 50; transition: opacity .25s ease; }
+        .detail-overlay { position: fixed; inset: 0; background: rgba(58, 30, 36, 0.4); backdrop-filter: blur(4px); display: grid; place-items: center; padding: 1rem; z-index: 50; transition: opacity .25s ease; }
         .detail-overlay.hidden { display: none; }
         .detail-modal { width: min(850px, 100%); background: #fff; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 24px 60px rgba(58, 30, 36, 0.15); position: relative; }
         .detail-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--accent-muted); }
@@ -127,8 +127,8 @@
         .whatsapp-fixed-btn:hover { transform: scale(1.1); }
         .whatsapp-fixed-btn svg { width: 30px; height: 30px; fill: currentColor; }
 
-        /* MODAL DE POLÍTICAS */
-        .policies-overlay { position: fixed; inset: 0; background: rgba(5a, 1e, 24, 0.4); backdrop-filter: blur(4px); display: grid; place-items: center; padding: 1rem; z-index: 100; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+        /* ESTILOS EXCLUSIVOS DEL MODAL DE POLÍTICAS */
+        .policies-overlay { position: fixed; inset: 0; background: rgba(58, 30, 36, 0.4); backdrop-filter: blur(4px); display: grid; place-items: center; padding: 1rem; z-index: 100; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
         .policies-overlay.active { opacity: 1; pointer-events: auto; }
         .policies-modal { width: min(700px, 100%); background: #fff; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 24px 60px rgba(58, 30, 36, 0.15); display: flex; flex-direction: column; max-height: 85vh; }
         .policies-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--accent-muted); }
