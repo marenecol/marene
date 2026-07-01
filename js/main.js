@@ -140,13 +140,13 @@ function initInstantSearch() {
         let html = '';
         filtered.forEach(product => {
             html += `
-                <a href="producto.html?id=${product.id}" class="search-result-item" onclick="document.getElementById('search-overlay').classList.remove('active')">
+                <button type="button" class="search-result-item" onclick="document.getElementById('search-overlay').classList.remove('active'); openProductDetail('${product.id}')">
                     <img src="${product.mainImage}" alt="${product.name}">
                     <div class="search-result-info">
                         <h4>${product.name}</h4>
                         <p>${window.formatCOP ? window.formatCOP(product.price) : '$' + product.price}</p>
                     </div>
-                </a>
+                </button>
             `;
         });
         
@@ -222,7 +222,7 @@ function renderDynamicCategoryElements() {
                 if (!category.enabled) return;
                 const card = document.createElement('a');
                 card.className = 'category-card category-card-placeholder';
-                card.href = `catalogo.html?cat=${category.id}`;
+                card.href = '#productos';
                 card.innerHTML = `
                     <div class="category-card-visual"></div>
                     <div class="category-overlay">
@@ -290,41 +290,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Función global para generar el HTML de una tarjeta de producto (Product Card)
 function createProductCardHTML(product) {
-    const isFav = window.isFavorite ? window.isFavorite(product.id) : false;
-    const heartFill = isFav ? 'currentColor' : 'none';
-    const activeClass = isFav ? 'active' : '';
     const formatFn = window.formatCOP || (val => `$${val}`);
-    const mainImage = product.mainImage || '';
-    const hoverImage = product.hoverImage || product.mainImage || '';
-    const categoryLabel = product.categoryLabel ? `<p class="product-card-category">${product.categoryLabel}</p>` : '';
-    const newBadge = product.new ? '<span class="product-badge badge-new">Nuevo</span>' : '';
-
+    const image = product.mainImage || '';
     return `
-        <div class="product-card" data-id="${product.id}">
+        <button type="button" class="product-card" data-id="${product.id}" onclick="openProductDetail('${product.id}')">
             <div class="product-card-image">
-                <a href="producto.html?id=${product.id}">
-                    <img src="${mainImage}" alt="${product.name}" class="product-main-img">
-                    <img src="${hoverImage}" alt="${product.name}" class="product-hover-img">
-                </a>
-                <button class="fav-btn ${activeClass}" data-id="${product.id}" onclick="toggleFavorite('${product.id}')" aria-label="Agregar a favoritos">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="${heartFill}" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-                    </svg>
-                </button>
-                ${newBadge}
+                <img src="${image}" alt="${product.name}" loading="lazy">
             </div>
-            <div class="product-card-info">
-                ${categoryLabel}
-                <h3 class="product-card-title"><a href="producto.html?id=${product.id}">${product.name}</a></h3>
-                <div class="product-card-footer">
-                    <span class="product-card-price">${formatFn(product.price)}</span>
-                    <button class="btn btn-primary btn-buy-now" onclick="buyProductWhatsApp('${product.id}')" aria-label="Comprar por WhatsApp">
-                        Comprar
-                    </button>
-                </div>
+            <div class="product-card-body">
+                <p class="product-card-title">${product.name}</p>
+                <p class="product-card-price">${formatFn(product.price)}</p>
             </div>
-        </div>
+        </button>
     `;
 }
 
+function renderProductGrid() {
+    const grid = document.getElementById('product-grid');
+    if (!grid || !window.PRODUCTS) return;
+    grid.innerHTML = window.PRODUCTS.map(product => createProductCardHTML(product)).join('');
+}
+
+function openProductDetail(productId) {
+    const product = window.PRODUCTS.find(item => item.id === productId);
+    if (!product) return;
+
+    const overlay = document.getElementById('detail-overlay');
+    const detailImage = document.getElementById('detail-image');
+    const detailName = document.getElementById('detail-name');
+    const detailSpecs = document.getElementById('detail-specs');
+    const detailMeasures = document.getElementById('detail-measures');
+    const detailPrice = document.getElementById('detail-price');
+    const addCartBtn = document.getElementById('detail-add-to-cart');
+    const buyNowBtn = document.getElementById('detail-buy-now');
+
+    if (!overlay || !detailImage || !detailName || !detailSpecs || !detailMeasures || !detailPrice || !addCartBtn || !buyNowBtn) return;
+
+    detailImage.src = product.mainImage;
+    detailImage.alt = product.name;
+    detailName.textContent = product.name;
+    detailSpecs.textContent = product.material || product.description || 'Material no disponible';
+    detailMeasures.textContent = product.dimensions || 'Medidas no disponibles';
+    detailPrice.textContent = formatCOP(product.price);
+
+    addCartBtn.onclick = () => {
+        addToCart(product.id, 1);
+        closeProductDetail();
+    };
+
+    buyNowBtn.onclick = () => {
+        buyProductWhatsApp(product.id, 1);
+    };
+
+    overlay.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+}
+
+function closeProductDetail() {
+    const overlay = document.getElementById('detail-overlay');
+    if (!overlay) return;
+    overlay.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+}
+
+function initShopPage() {
+    renderProductGrid();
+    const detailClose = document.getElementById('detail-close');
+    const overlay = document.getElementById('detail-overlay');
+    if (detailClose) {
+        detailClose.addEventListener('click', closeProductDetail);
+    }
+    if (overlay) {
+        overlay.addEventListener('click', event => {
+            if (event.target === overlay) closeProductDetail();
+        });
+    }
+}
+
 window.createProductCardHTML = createProductCardHTML;
+window.openProductDetail = openProductDetail;
+window.closeProductDetail = closeProductDetail;
+window.initShopPage = initShopPage;

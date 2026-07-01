@@ -125,7 +125,7 @@ function renderFavoritesList(container) {
         container.innerHTML = `
             <div class="empty-favorites-view" style="text-align: center; padding: var(--spacing-xl) 0;">
                 <p style="margin-bottom: var(--spacing-md);">No tienes productos en tu lista de deseos todavía.</p>
-                <a href="catalogo.html" class="btn btn-secondary">Ver Catálogo</a>
+                <a href="#productos" class="btn btn-secondary">Ver collares</a>
             </div>
         `;
         return;

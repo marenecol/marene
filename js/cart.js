@@ -154,7 +154,7 @@ function updateCartUI() {
         cartItemsContainer.innerHTML = `
             <div class="cart-empty-message">
                 <p>Tu carrito está vacío</p>
-                <a href="catalogo.html" class="btn btn-secondary" onclick="closeCartDrawer()">Explorar Colección</a>
+                <a href="#productos" class="btn btn-secondary" onclick="closeCartDrawer()">Explorar Colección</a>
             </div>
         `;
         // Ocultar sección de totales si está vacío
