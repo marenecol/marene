@@ -7,9 +7,15 @@
     <title>MARENE — Collares Minimalistas</title>
     <link rel="icon" href="assets/images/favicon.svg">
     <style>
-        :root { color-scheme: light; }
+        :root { 
+            color-scheme: light; 
+            --bg-primary: #F2EFE9;      /* Fondo orgánico suave de tu paleta */
+            --text-main: #2B2D2A;       /* Texto oscuro suave */
+            --accent-main: #606C5A;     /* Verde Oliva principal */
+            --accent-muted: #A2A89E;    /* Verde suave para bordes/hovers */
+        }
         html { scroll-behavior: smooth; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: #fff; color: #111; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-main); }
         * { box-sizing: border-box; }
         button, a { font: inherit; }
         a { color: inherit; text-decoration: none; }
@@ -18,31 +24,33 @@
         .page-shell { min-height: 100vh; display: flex; flex-direction: column; }
         
         /* HEADER PREMIUM */
-        .page-header { position: sticky; top: 0; z-index: 30; background: #fff; border-bottom: 1px solid rgba(17,17,17,.08); }
+        .page-header { position: sticky; top: 0; z-index: 30; background: var(--bg-primary); border-bottom: 1px solid rgba(96, 108, 90, 0.15); }
         .header-inner { max-width: 1200px; margin: 0 auto; padding: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
         
-        .brand-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; }
+        /* Contenedor del Logo con Imagen */
+        .brand-logo { display: flex; align-items: center; justify-content: center; height: 40px; }
+        .brand-logo img { height: 100%; width: auto; object-fit: contain; }
         
         .site-nav { display: flex; gap: 1.5rem; }
         .nav-link { text-transform: uppercase; letter-spacing: .1em; font-size: .85rem; color: #555; transition: color .2s ease; font-weight: 500; }
-        .nav-link:hover, .nav-link.active { color: #111; }
+        .nav-link:hover, .nav-link.active { color: var(--accent-main); }
 
         .header-actions { display: flex; align-items: center; gap: 1.25rem; }
-        .header-action-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; color: #111; transition: transform .2s ease; }
-        .header-action-btn:hover { transform: scale(1.05); }
-        .cart-badge-count { position: absolute; top: -6px; right: -8px; background: #111; color: #fff; font-size: .65rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+        .header-action-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main); transition: transform .2s ease; }
+        .header-action-btn:hover { transform: scale(1.05); color: var(--accent-main); }
+        .cart-badge-count { position: absolute; top: -6px; right: -8px; background: var(--accent-main); color: #fff; font-size: .65rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
 
         /* HERO CARRUSEL ESTILO SARTORINI */
-        .hero-carousel { position: relative; width: 100%; height: clamp(300px, 45vh, 500px); overflow: hidden; background: #f4f1ea; }
+        .hero-carousel { position: relative; width: 100%; height: clamp(300px, 45vh, 500px); overflow: hidden; background: #eadece; }
         .carousel-track { display: flex; width: 300%; height: 100%; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
         .carousel-slide { width: 33.333%; height: 100%; position: relative; flex-shrink: 0; }
         .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        .carousel-overlay-content { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.25); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem 10%; color: #fff; text-align: left; }
+        .carousel-overlay-content { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem 10%; color: #fff; text-align: left; }
         .carousel-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; margin: 0 0 0.5rem; letter-spacing: .05em; text-transform: uppercase; line-height: 1.1; }
         .carousel-subtitle { font-size: clamp(0.85rem, 2vw, 1.1rem); margin: 0 0 1.5rem; max-width: 500px; color: rgba(255,255,255,0.9); font-weight: 300; }
         
-        .btn-carousel-buy { display: inline-flex; align-items: center; justify-content: center; padding: 0.85rem 2rem; border-radius: 999px; background: #fff; color: #111; text-transform: uppercase; letter-spacing: .15em; font-size: .75rem; font-weight: 600; border: 1px solid #fff; transition: all .2s ease; }
+        .btn-carousel-buy { display: inline-flex; align-items: center; justify-content: center; padding: 0.85rem 2rem; border-radius: 999px; background: #fff; color: var(--text-main); text-transform: uppercase; letter-spacing: .15em; font-size: .75rem; font-weight: 600; border: 1px solid #fff; transition: all .2s ease; }
         .btn-carousel-buy:hover { background: transparent; color: #fff; }
 
         .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: background .2s; z-index: 10; }
@@ -56,21 +64,21 @@
 
         /* FILTROS DE CATEGORÍA MINIMALISTAS */
         .filter-container { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; padding: 0 1rem; }
-        .btn-filter { padding: 0.6rem 1.5rem; border-radius: 999px; border: 1px solid rgba(17,17,17,.15); background: transparent; color: #555; font-size: .8rem; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; transition: all .2s ease; }
-        .btn-filter:hover { border-color: #111; color: #111; }
-        .btn-filter.active { background: #111; color: #fff; border-color: #111; font-weight: 600; }
+        .btn-filter { padding: 0.6rem 1.5rem; border-radius: 999px; border: 1px solid var(--accent-muted); background: transparent; color: #555; font-size: .8rem; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; transition: all .2s ease; }
+        .btn-filter:hover { border-color: var(--accent-main); color: var(--accent-main); }
+        .btn-filter.active { background: var(--accent-main); color: #fff; border-color: var(--accent-main); font-weight: 600; }
 
         /* GRID DE PRODUCTOS EN 2 COLUMNAS MÓVILES */
         .product-section { max-width: 1200px; margin: 0 auto; padding: 3rem 1rem 4rem; }
         .product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
         @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; } }
         
-        .product-card { display: grid; gap: .75rem; text-align: left; background: #fff; border-radius: 1rem; overflow: hidden; transition: transform .2s ease; }
-        .product-card:hover { transform: translateY(-2px); }
-        .product-card-image { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: #f7f5f0; border-radius: 1rem; }
+        .product-card { display: grid; gap: .75rem; text-align: left; background: #fff; border-radius: 1rem; overflow: hidden; transition: transform .2s ease; border: 1px solid rgba(162, 168, 158, 0.15); }
+        .product-card:hover { transform: translateY(-2px); border-color: var(--accent-muted); }
+        .product-card-image { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: #eadece; border-radius: 1rem; }
         .product-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .product-card-body { padding: .25rem .5rem; }
-        .product-card-title { margin: 0 0 .25rem; font-size: .9rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #111; }
+        .product-card-title { margin: 0 0 .25rem; font-size: .9rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-main); }
         .product-card-price { margin: 0; color: #666; font-size: .85rem; font-weight: 500; }
 
         /* DETALLE OVERLAY */
@@ -79,7 +87,7 @@
         .detail-modal { width: min(850px, 100%); background: #fff; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,.15); position: relative; }
         .detail-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid #f2f2f2; }
         .detail-title { margin: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; }
-        .detail-close { font-size: 1.75rem; color: #111; line-height: 1; cursor: pointer; }
+        .detail-close { font-size: 1.75rem; color: var(--text-main); line-height: 1; cursor: pointer; }
         .detail-content { display: grid; grid-template-columns: 1fr; gap: 1.5rem; padding: 1.5rem; max-height: 85vh; overflow-y: auto; }
         @media (min-width: 650px) { .detail-content { grid-template-columns: 1.1fr .9fr; gap: 2rem; } }
 
@@ -93,12 +101,16 @@
         .cart-drawer-footer { padding: 1.5rem; border-top: 1px solid #f2f2f2; background: #fafafa; }
         .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 55; display: none; }
         .cart-overlay.active { display: block; }
+        
+        /* Botón de checkout personalizado */
+        #cart-checkout-btn { width: 100%; border-radius: 999px; padding: 1rem; background: var(--accent-main); color: #fff; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem; transition: background 0.2s; }
+        #cart-checkout-btn:hover { background: #4f594a; }
 
         /* FOOTER */
-        .minimal-footer { border-top: 1px solid rgba(17,17,17,.08); padding: 3rem 1rem; text-align: center; background: #fff; margin-top: auto; }
-        .footer-socials-text { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; font-size: 0.95rem; color: #333; }
+        .minimal-footer { border-top: 1px solid rgba(96, 108, 90, 0.15); padding: 3rem 1rem; text-align: center; background: var(--bg-primary); margin-top: auto; }
+        .footer-socials-text { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; font-size: 0.95rem; color: var(--text-main); }
         .footer-socials-text p { margin: 0; }
-        .footer-note { margin: 0; color: #777; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; }
+        .footer-note { margin: 0; color: #666; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; }
 
         /* BOTÓN FLOTANTE DE WHATSAPP */
         .whatsapp-fixed-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #25D366; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(37,211,102,0.3); z-index: 40; transition: transform .2s ease; }
@@ -110,10 +122,10 @@
         .policies-overlay.active { opacity: 1; pointer-events: auto; }
         .policies-modal { width: min(700px, 100%); background: #fff; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,.15); display: flex; flex-direction: column; max-height: 85vh; }
         .policies-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid #f2f2f2; }
-        .policies-title { margin: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; font-family: 'Cormorant Garamond', serif; }
-        .policies-close { font-size: 1.75rem; color: #111; line-height: 1; cursor: pointer; }
-        .policies-content { padding: 1.5rem; overflow-y: auto; text-align: left; font-size: 0.9rem; line-height: 1.6; color: #333; }
-        .policies-content h5 { font-size: 0.95rem; text-transform: uppercase; margin: 1.5rem 0 0.5rem; color: #111; letter-spacing: 0.05em; border-bottom: 1px solid #f5f5f5; padding-bottom: 0.2rem; }
+        .policies-title { margin: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; font-family: 'Cormorant Garamond', serif; color: var(--accent-main); }
+        .policies-close { font-size: 1.75rem; color: var(--text-main); line-height: 1; cursor: pointer; }
+        .policies-content { padding: 1.5rem; overflow-y: auto; text-align: left; font-size: 0.9rem; line-height: 1.6; color: #444; }
+        .policies-content h5 { font-size: 0.95rem; text-transform: uppercase; margin: 1.5rem 0 0.5rem; color: var(--accent-main); letter-spacing: 0.05em; border-bottom: 1px solid #f5f5f5; padding-bottom: 0.2rem; }
         .policies-content ul { padding-left: 1.2rem; margin: 0 0 1rem; }
         .policies-content li { margin-bottom: 0.4rem; }
 
@@ -129,7 +141,9 @@
     <div class="page-shell">
         <header class="page-header">
             <div class="header-inner">
-                <a href="#inicio" class="brand-logo">MARENE</a>
+                <a href="#inicio" class="brand-logo">
+                    <img src="assets/images/logo.png" alt="MARENE">
+                </a>
                 <nav class="site-nav" aria-label="Navegación principal">
                     <a class="nav-link active" href="#inicio">Inicio</a>
                     <a class="nav-link" href="#productos">Catálogo</a>
@@ -148,7 +162,6 @@
         </header>
 
         <main id="inicio">
-            <!-- Carrusel de Fotos Dinámico -->
             <section class="hero-carousel" aria-label="Destacados de la marca">
                 <button class="carousel-arrow arrow-left" onclick="moveSlide(-1)" aria-label="Anterior slide">&#10094;</button>
                 <button class="carousel-arrow arrow-right" onclick="moveSlide(1)" aria-label="Siguiente slide">&#10095;</button>
@@ -187,7 +200,6 @@
                 </div>
             </section>
 
-            <!-- Sección de Catálogo con Filtros Integrados -->
             <section class="product-section" id="productos">
                 <div class="filter-container">
                     <button class="btn-filter active" onclick="applyCategoryFilter('all', this)">Todos</button>
@@ -207,16 +219,14 @@
                 <p><strong>WhatsApp:</strong> +57 300 123 4567</p>
             </div>
             <p class="footer-note">Soporte rápido y atención personalizada vía WhatsApp</p>
-            <button type="button" onclick="togglePolicies(true)" style="margin-top: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #777; border-bottom: 1px solid #ccc; padding-bottom: 2px; font-weight: 500;">Políticas de Compra y Garantía</button>
+            <button type="button" onclick="togglePolicies(true)" style="margin-top: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-main); border-bottom: 1px solid var(--accent-muted); padding-bottom: 2px; font-weight: 600;">Políticas de Compra y Garantía</button>
         </footer>
     </div>
 
-    <!-- BOTÓN FIJO FLOTANTE DE WHATSAPP -->
     <a href="https://wa.me/573001234567?text=Hola%20MARENE%2C%20quiero%20recibir%20atenci%C3%B3n%20personalizada%20para%20mi%20pedido." class="whatsapp-fixed-btn" target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp">
         <svg viewBox="0 0 24 24"><path d="M12.012 2c-5.508 0-9.988 4.479-9.988 9.987 0 1.763.46 3.42 1.262 4.861l-1.286 4.697 4.811-1.261a9.92 9.92 0 0 0 4.201.936h.004c5.499 0 9.996-4.481 9.996-9.99 0-2.67-1.037-5.178-2.922-7.062C17.202 3.14 14.701 2 12.012 2zm6.136 14.195c-.269.756-1.564 1.385-2.146 1.442-.519.052-1.201.074-1.921-.157-.457-.146-1.026-.344-1.758-.661-3.111-1.347-5.114-4.512-5.269-4.72-.156-.207-1.272-1.696-1.272-3.235 0-1.539.802-2.296 1.087-2.608.285-.311.622-.389.829-.389.207 0 .415.004.596.012.191.008.446-.073.701.539.269.648.918 2.242.996 2.403.078.161.13.348.026.56-.104.212-.156.342-.311.518-.156.177-.327.394-.467.529-.156.145-.322.304-.139.617.182.311.81 1.324 1.737 2.152.923.824 1.701 1.08 2.012 1.208.311.129.493.109.674-.099.181-.207.778-.902.986-1.213.207-.311.415-.259.699-.155.285.104 1.815.856 2.126 1.011.311.155.518.233.596.363.078.13.078.752-.191 1.508z"/></svg>
     </a>
 
-    <!-- VENTANA EMERGENTE DETALLE -->
     <div id="detail-overlay" class="detail-overlay hidden" aria-hidden="true">
         <div class="detail-modal" role="dialog" aria-modal="true">
             <div class="detail-header">
@@ -227,7 +237,6 @@
         </div>
     </div>
 
-    <!-- CARRITO DE COMPRAS LATERAL -->
     <div id="cart-overlay" class="cart-overlay"></div>
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-drawer-header">
@@ -240,11 +249,10 @@
                 <span>Subtotal:</span>
                 <span id="cart-subtotal-val">$0 COP</span>
             </div>
-            <button id="cart-checkout-btn" class="btn-primary" style="width: 100%; border-radius: 999px; padding: 1rem;">Confirmar Pedido por WhatsApp</button>
+            <button id="cart-checkout-btn" class="btn-primary" onclick="if(typeof checkoutCartViaWhatsApp === 'function') checkoutCartViaWhatsApp()">Confirmar Pedido por WhatsApp</button>
         </div>
     </div>
 
-    <!-- VENTANA EMERGENTE: POLÍTICAS DE COMPRA -->
     <div id="policies-overlay" class="policies-overlay" aria-hidden="true">
         <div class="policies-modal">
             <div class="policies-header">
@@ -282,7 +290,6 @@
         </div>
     </div>
 
-    <!-- SCRIPTS DE COMPORTAMIENTO -->
     <script src="js/data.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/main.js"></script>
