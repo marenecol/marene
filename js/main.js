@@ -246,8 +246,7 @@ function renderDynamicCategoryElements() {
 
 // 7. Botón flotante de WhatsApp para toda la tienda
 function createWhatsAppFloatButton() {
-    const existing = document.getElementById('whatsapp-float-btn');
-    if (existing) return;
+    if (document.querySelector('.whatsapp-fixed, .whatsapp-float')) return;
 
     const whatsappNumber = window.CONFIG && window.CONFIG.whatsappNumber ? window.CONFIG.whatsappNumber : '573001234567';
     const message = window.CONFIG && window.CONFIG.whatsappIntro ? window.CONFIG.whatsappIntro : 'Hola MARENE, quiero recibir atención personalizada para mi pedido.';
@@ -295,30 +294,32 @@ function createProductCardHTML(product) {
     const heartFill = isFav ? 'currentColor' : 'none';
     const activeClass = isFav ? 'active' : '';
     const formatFn = window.formatCOP || (val => `$${val}`);
-    
+    const mainImage = product.mainImage || '';
+    const hoverImage = product.hoverImage || product.mainImage || '';
+    const categoryLabel = product.categoryLabel ? `<p class="product-card-category">${product.categoryLabel}</p>` : '';
+    const newBadge = product.new ? '<span class="product-badge badge-new">Nuevo</span>' : '';
+
     return `
         <div class="product-card" data-id="${product.id}">
             <div class="product-card-image">
                 <a href="producto.html?id=${product.id}">
-                    <img src="${product.mainImage}" alt="${product.name}" class="product-main-img">
-                    <img src="${product.hoverImage}" alt="${product.name}" class="product-hover-img">
+                    <img src="${mainImage}" alt="${product.name}" class="product-main-img">
+                    <img src="${hoverImage}" alt="${product.name}" class="product-hover-img">
                 </a>
                 <button class="fav-btn ${activeClass}" data-id="${product.id}" onclick="toggleFavorite('${product.id}')" aria-label="Agregar a favoritos">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="${heartFill}" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
                     </svg>
                 </button>
-                ${product.new ? '<span class="product-badge badge-new">Nuevo</span>' : ''}
+                ${newBadge}
             </div>
             <div class="product-card-info">
-                <p class="product-card-category">${product.categoryLabel}</p>
+                ${categoryLabel}
                 <h3 class="product-card-title"><a href="producto.html?id=${product.id}">${product.name}</a></h3>
                 <div class="product-card-footer">
                     <span class="product-card-price">${formatFn(product.price)}</span>
-                    <button class="btn-add-cart-icon" onclick="addToCart('${product.id}')" aria-label="Agregar al carrito">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                        </svg>
+                    <button class="btn btn-primary btn-buy-now" onclick="buyProductWhatsApp('${product.id}')" aria-label="Comprar por WhatsApp">
+                        Comprar
                     </button>
                 </div>
             </div>

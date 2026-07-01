@@ -233,6 +233,25 @@ function checkoutWhatsApp() {
     window.open(whatsappUrl, '_blank');
 }
 
+function buyProductWhatsApp(productId, quantity = 1) {
+    if (!window.PRODUCTS || !productId) return;
+    const product = window.PRODUCTS.find(p => p.id === productId);
+    if (!product) return;
+
+    const phoneNumber = window.CONFIG && window.CONFIG.whatsappNumber ? window.CONFIG.whatsappNumber : '573001234567';
+    const intro = window.CONFIG && window.CONFIG.whatsappIntro ? window.CONFIG.whatsappIntro : 'Hola MARENE, me interesa este producto:';
+    let message = `${intro}\n\n`;
+    message += `*${product.name}*\n`;
+    message += `Precio: ${formatCOP(product.price)}\n`;
+    message += `Cantidad: ${quantity}\n`;
+    message += `Categoría: ${product.categoryLabel}\n\n`;
+    message += 'Por favor indícame los pasos para confirmar el pedido y realizar el pago. Gracias. 🤍';
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+}
+
 // Inicializar cuando se cargue el DOM
 document.addEventListener('DOMContentLoaded', () => {
     initCart();
@@ -261,3 +280,4 @@ window.formatCOP = formatCOP;
 window.getCartCount = getCartCount;
 window.getCartTotal = getCartTotal;
 window.getCartItems = getCartItems;
+window.buyProductWhatsApp = buyProductWhatsApp;

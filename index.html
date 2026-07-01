@@ -1,984 +1,133 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MARENE - Marca colombiana de accesorios premium femeninos. Joyas elegantes, minimalistas y versátiles bañadas en oro de 24k y Plata de Ley 925. Envíos a todo el país.">
-    <meta name="keywords" content="joyería, accesorios de mujer, collares minimalistas, aretes de oro, pulseras, anillos, MARENE Colombia">
-    <meta name="author" content="MARENE">
-    
-    <!-- Open Graph for Social Media -->
-    <meta property="og:title" content="MARENE | Joyería Minimalista & Accesorios Premium">
-    <meta property="og:description" content="Descubre nuestra colección de aretes, collares y anillos de alta calidad. Elegancia cotidiana para resaltar tu brillo.">
-    <meta property="og:image" content="https://marene.com/assets/images/hero-bg.png">
-    <meta property="og:type" content="website">
-    
-    <title>MARENE | Joyería Minimalista & Accesorios Premium</title>
-    
-    <!-- Favicon -->
+    <meta name="description" content="MARENE — Accesorios minimalistas para mujer. Compra collares, aretes, pulseras y sets con una experiencia simple y directa.">
+    <title>MARENE — Catálogo Minimal</title>
     <link rel="icon" href="assets/images/favicon.svg">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://marene.com/index.html">
-    
-    <!-- Google Fonts Preconnect & Link -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS imports -->
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/components/header.css">
-    <link rel="stylesheet" href="css/components/hero.css">
-    <link rel="stylesheet" href="css/components/product-card.css">
-    <link rel="stylesheet" href="css/components/cart-drawer.css">
-    
-    <!-- Page Specific CSS (Custom styles for home layout) -->
     <style>
-        /* Categories Mosaic Section */
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-lg);
-            margin-top: var(--spacing-md);
-        }
-        
-        .category-card {
-            position: relative;
-            aspect-ratio: 4 / 3;
-            overflow: hidden;
-            border-radius: var(--radius-sm);
-            background-color: var(--color-bg-secondary);
-        }
-        
-        .category-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-slow);
-        }
-        
-        .category-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(26, 26, 26, 0.6) 0%, rgba(26, 26, 26, 0.1) 70%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            padding: var(--spacing-lg);
-            z-index: 2;
-            transition: var(--transition-smooth);
-        }
-        
-        .category-name {
-            font-family: var(--font-title);
-            font-size: 1.8rem;
-            color: var(--color-white);
-            font-weight: var(--fw-light);
-            letter-spacing: 0.1em;
-            margin-bottom: var(--spacing-sm);
-            text-transform: uppercase;
-        }
-        
-        .category-btn {
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--color-white);
-            border-bottom: 1px solid var(--color-white);
-            padding-bottom: 2px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: var(--transition-smooth);
-        }
-        
-        .category-card:hover img {
-            transform: scale(1.05);
-        }
-        
-        .category-card:hover .category-overlay {
-            background: linear-gradient(to top, rgba(26, 26, 26, 0.75) 0%, rgba(26, 26, 26, 0.2) 70%);
-        }
-        
-        .category-card:hover .category-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        @media (max-width: 768px) {
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .category-card:nth-child(5) {
-                grid-column: span 2;
-            }
-            .category-btn {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @media (max-width: 480px) {
-            .categories-grid {
-                grid-template-columns: 1fr;
-            }
-            .category-card:nth-child(5) {
-                grid-column: span 1;
-            }
-        }
-        
-        /* Banner Promocional */
-        .promo-section {
-            background-color: var(--color-bg-secondary);
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .promo-content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            align-items: center;
-            gap: var(--spacing-xl);
-            width: 100%;
-        }
-        
-        .promo-text {
-            padding: var(--spacing-xl) 0;
-            z-index: 2;
-        }
-        
-        .promo-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            color: var(--color-accent);
-            margin-bottom: var(--spacing-sm);
-            display: block;
-            font-weight: var(--fw-semibold);
-        }
-        
-        .promo-title {
-            font-size: 3rem;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .promo-desc {
-            margin-bottom: var(--spacing-lg);
-            font-size: 1rem;
-            max-width: 500px;
-        }
-        
-        .promo-image-wrapper {
-            position: relative;
-            height: 100%;
-            min-height: 400px;
-        }
-        
-        .promo-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: var(--radius-sm);
-        }
-        
-        @media (max-width: 768px) {
-            .promo-content-grid {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-md);
-            }
-            .promo-text {
-                padding: var(--spacing-lg) 0 0;
-                text-align: center;
-            }
-            .promo-desc {
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .promo-image-wrapper {
-                min-height: 300px;
-            }
-        }
-        
-        /* Benefits Grid */
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-lg);
-            text-align: center;
-        }
-        
-        .benefit-item {
-            padding: var(--spacing-lg) var(--spacing-sm);
-            border-radius: var(--radius-sm);
-            background-color: var(--color-bg-primary);
-            border: 1px solid var(--color-border);
-            transition: var(--transition-smooth);
-        }
-        
-        .benefit-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--color-accent);
-        }
-        
-        .benefit-icon {
-            color: var(--color-accent);
-            margin-bottom: var(--spacing-md);
-            display: inline-flex;
-        }
-        
-        .benefit-item h3 {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            font-weight: var(--fw-semibold);
-            margin-bottom: var(--spacing-xs);
-            color: var(--color-text-primary);
-        }
-        
-        .benefit-item p {
-            font-size: 0.85rem;
-            color: var(--color-text-secondary);
-        }
-        
-        @media (max-width: 992px) {
-            .benefits-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 480px) {
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Testimonials Section */
-        .testimonials-slider {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-        }
-        
-        .testimonial-item {
-            display: none;
-            animation: fadeIn 0.8s ease forwards;
-        }
-        
-        .testimonial-item.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .testimonial-quote {
-            font-family: var(--font-title);
-            font-style: italic;
-            font-size: 1.8rem;
-            line-height: 1.4;
-            color: var(--color-text-primary);
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .testimonial-author {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--color-accent);
-            font-weight: var(--fw-semibold);
-        }
-        
-        .testimonial-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: var(--spacing-lg);
-        }
-        
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: var(--radius-full);
-            background-color: var(--color-border);
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-        
-        .dot.active {
-            background-color: var(--color-accent);
-            transform: scale(1.2);
-        }
-        
-        /* Instagram grid */
-        .instagram-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: var(--spacing-sm);
-        }
-        
-        .instagram-item {
-            position: relative;
-            aspect-ratio: 1 / 1;
-            overflow: hidden;
-            border-radius: var(--radius-sm);
-        }
-        
-        .instagram-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-slow);
-        }
-        
-        .instagram-hover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(26, 26, 26, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            color: var(--color-white);
-            transition: var(--transition-smooth);
-            z-index: 2;
-        }
-        
-        .instagram-item:hover img {
-            transform: scale(1.05);
-        }
-        
-        .instagram-item:hover .instagram-hover {
-            opacity: 1;
-        }
-        
-        @media (max-width: 992px) {
-            .instagram-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .instagram-item:nth-child(4), .instagram-item:nth-child(5) {
-                display: none;
-            }
-        }
-        @media (max-width: 480px) {
-            .instagram-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .instagram-item:nth-child(3) {
-                display: none;
-            }
-        }
-        
-        /* Footer */
-        .site-footer {
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-on-dark);
-            padding: var(--spacing-xxl) 0 var(--spacing-lg);
-            border-top: 1px solid var(--color-border-dark);
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
-            gap: var(--spacing-xl);
-            margin-bottom: var(--spacing-xxl);
-        }
-        
-        .footer-logo {
-            font-family: var(--font-title);
-            font-size: 1.8rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-white);
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .footer-col h3 {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            font-weight: var(--fw-semibold);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--color-white);
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .footer-col p {
-            color: var(--color-text-light);
-            font-size: 0.85rem;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .footer-links a {
-            color: var(--color-text-light);
-            font-size: 0.85rem;
-            transition: var(--transition-smooth);
-        }
-        
-        .footer-links a:hover {
-            color: var(--color-accent);
-            padding-left: 2px;
-        }
-        
-        .newsletter-form {
-            display: flex;
-            margin-top: var(--spacing-md);
-        }
-        
-        .newsletter-form input {
-            flex: 1;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--color-border-dark);
-            color: var(--color-white);
-            padding: 0.75rem 1rem;
-            border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-        }
-        
-        .newsletter-form input::placeholder {
-            color: var(--color-text-light);
-        }
-        
-        .newsletter-form button {
-            background-color: var(--color-accent);
-            color: var(--color-white);
-            padding: 0 1.5rem;
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            font-weight: var(--fw-medium);
-        }
-        
-        .newsletter-form button:hover {
-            background-color: var(--color-accent-hover);
-        }
-        
-        .footer-socials {
-            display: flex;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-lg);
-        }
-        
-        .social-link {
-            color: var(--color-text-light);
-            transition: var(--transition-smooth);
-        }
-        
-        .social-link:hover {
-            color: var(--color-accent);
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid var(--color-border-dark);
-            padding-top: var(--spacing-lg);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: var(--color-text-light);
-        }
-        
-        @media (max-width: 992px) {
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: var(--spacing-lg);
-            }
-        }
-        @media (max-width: 576px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-lg);
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: var(--spacing-md);
-                text-align: center;
-            }
-        }
+        :root { color-scheme: light; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: #fff; color: #111; }
+        * { box-sizing: border-box; }
+        a { color: inherit; text-decoration: none; }
+        .page-shell { min-height: 100vh; display: flex; flex-direction: column; }
+        .page-header { position: sticky; top: 0; z-index: 20; background: #fff; border-bottom: 1px solid rgba(17,17,17,.08); padding: 1rem 1rem .75rem; display: flex; flex-direction: column; align-items: center; }
+        .brand-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; margin: 0; }
+        .top-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: .9rem 0 1rem; width: 100%; max-width: 720px; }
+        .top-action { display: inline-flex; align-items: center; gap: .5rem; padding: .65rem .95rem; border-radius: 999px; background: #f7f7f7; color: #111; font-size: .88rem; border: 1px solid rgba(17,17,17,.09); transition: background .2s ease; }
+        .top-action:hover { background: #efefef; }
+        .top-action svg { width: 1rem; height: 1rem; }
+        .category-bar { display: flex; gap: .75rem; overflow-x: auto; padding-bottom: .85rem; width: 100%; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .category-bar::-webkit-scrollbar { display: none; }
+        .category-chip { flex: 0 0 auto; padding: .75rem 1rem; border-radius: 999px; border: 1px solid rgba(17,17,17,.09); background: #fafafa; color: #111; font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; transition: transform .18s ease, background .18s ease; }
+        .category-chip.active { background: #111; color: #fff; border-color: #111; transform: translateY(-1px); }
+        main { flex: 1; width: min(1200px,100%); margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+        .hero-section { text-align: center; max-width: 720px; margin: 0 auto 2rem; }
+        .hero-title { font-size: clamp(2rem,4vw,3.2rem); line-height: 1.05; margin: 0 0 1rem; letter-spacing: .08em; }
+        .hero-copy { margin: 0 auto 1.5rem; color: #555; font-size: 1rem; line-height: 1.75; max-width: 34rem; }
+        .product-summary { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+        .product-summary span { color: #666; font-size: .95rem; }
+        .product-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .95rem; }
+        @media (min-width: 900px) { .product-grid { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; } }
+        .product-card { position: relative; display: block; border-radius: 1rem; overflow: hidden; background: #fff; box-shadow: 0 16px 34px rgba(0,0,0,.06); transition: transform .25s ease, box-shadow .25s ease; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 22px 46px rgba(0,0,0,.09); }
+        .product-image { position: relative; width: 100%; aspect-ratio: 1 / 1.15; background: #f6f4ef; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .product-action { position: absolute; right: .85rem; bottom: .85rem; width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid rgba(255,255,255,.9); background: rgba(17,17,17,.88); display: inline-flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 14px 28px rgba(0,0,0,.16); }
+        .product-action svg { width: 1rem; height: 1rem; }
+        .product-info { padding: 1rem; }
+        .product-name { margin: 0 0 .45rem; font-size: .92rem; line-height: 1.3; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+        .product-price { margin: 0; font-size: 1rem; font-weight: 700; }
+        .minimal-footer { border-top: 1px solid rgba(17,17,17,.08); padding: 1.5rem 1rem 2rem; text-align: center; color: #666; font-size: .92rem; }
+        .footer-socials { display: inline-flex; gap: .65rem; margin-bottom: .75rem; }
+        .footer-socials a { width: 2.5rem; height: 2.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: #f4f4f4; color: #111; }
+        .footer-note { margin: 0; color: #777; font-size: .9rem; }
+        .whatsapp-fixed { position: fixed; right: 1rem; bottom: 1rem; z-index: 100; width: 3.8rem; height: 3.8rem; border-radius: 50%; background: #25d366; display: inline-flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 18px 40px rgba(37,213,102,.24); transition: transform .2s ease; }
+        .whatsapp-fixed:hover { transform: translateY(-2px); }
+        @media (max-width: 600px) { .page-header { padding: 1rem .85rem .6rem; } .top-actions { margin: .75rem 0 .9rem; } .hero-title { font-size: 2rem; } .product-grid { gap: .75rem; } }
     </style>
 </head>
 <body>
-
-    <!-- 1. Banner Anuncio Superior -->
-    <div class="promo-banner">
-        <span>Joyas pensadas para acompañarte hoy y mañana.</span>
+    <div class="page-shell">
+        <header class="page-header">
+            <a href="./index.html" class="brand-logo">MARENE</a>
+            <div class="top-actions">
+                <a href="./contacto.html" class="top-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/><path d="M7 10l5 5 5-5"/></svg>Contacto</a>
+                <a href="./contacto.html" class="top-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M12 3v18"/></svg>Entrega</a>
+            </div>
+            <nav class="category-bar" aria-label="Categorías" id="category-nav"></nav>
+        </header>
+        <main>
+            <section class="hero-section" aria-labelledby="hero-title">
+                <h1 id="hero-title" class="hero-title">Joyas minimalistas para tu día a día.</h1>
+                <p class="hero-copy">Colección de accesorios MARENE pensada para ser usada sin esfuerzo: simple, elegante y directa.</p>
+                <a href="./catalogo.html" class="btn btn-primary">Explorar colección</a>
+            </section>
+            <section class="catalog-section">
+                <div class="product-summary"><span id="product-count">Cargando productos...</span></div>
+                <div class="product-grid" id="product-grid"></div>
+            </section>
+        </main>
+        <footer class="minimal-footer">
+            <div class="footer-socials">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
+            </div>
+            <p class="footer-note">Soporte directo por WhatsApp y atención personalizada.</p>
+        </footer>
     </div>
-
-    <!-- 2. Header Elegante (Navegación Sticky) -->
-    <header class="site-header">
-        <div class="container header-container">
-            <!-- Hamburguer Menu (Móvil) -->
-            <button id="menu-toggle-btn" class="menu-toggle" aria-label="Abrir Menú de Navegación">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-            <!-- Menú Principal (Desktop) -->
-            <nav class="nav-menu" role="navigation">
-                <a href="index.html" class="nav-link active">Inicio</a>
-                <a href="catalogo.html" class="nav-link">Catálogo</a>
-                <a href="nosotros.html" class="nav-link">Nosotros</a>
-                <a href="contacto.html" class="nav-link">Contacto</a>
-            </nav>
-
-            <!-- Logo Centrado -->
-            <div class="logo-container">
-                <a href="index.html" class="logo" aria-label="MARENE">MARENE</a>
-                <!-- Reemplaza este texto por tu logo SVG cuando esté listo -->
-            </div>
-
-            <!-- Acciones -->
-            <div class="header-actions">
-                <!-- Buscar -->
-                <button id="search-toggle-btn" class="action-btn" aria-label="Buscar productos">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                    </svg>
-                </button>
-                <!-- Cuenta -->
-                <a href="contacto.html" class="action-btn" aria-label="Mi Cuenta / Soporte" id="account-action-id">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
-                    </svg>
-                </a>
-                <!-- Favoritos -->
-                <a href="catalogo.html?show=favorites" class="action-btn" aria-label="Lista de Favoritos" id="favorites-action-id">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-                    </svg>
-                    <span class="badge fav-badge-count" style="display: none;">0</span>
-                </a>
-                <!-- Carrito -->
-                <button onclick="openCartDrawer()" class="action-btn" aria-label="Abrir Carrito" id="cart-action-id">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                    </svg>
-                    <span class="badge cart-badge-count" style="display: none;">0</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Barra de Búsqueda Desplegable -->
-        <div id="search-overlay" class="search-overlay">
-            <div class="container">
-                <div class="search-input-wrapper">
-                    <input type="text" id="search-input" placeholder="Buscar collares, aretes, pulseras..." autocomplete="off">
-                    <button id="search-close-btn" class="search-close-inline" aria-label="Cerrar Búsqueda">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <div id="search-results" class="search-results-dropdown"></div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Menú Lateral Móvil (Drawer) -->
-    <div id="mobile-nav-drawer" class="mobile-nav-drawer" aria-hidden="true">
-        <button id="mobile-nav-close-btn" class="mobile-nav-close" aria-label="Cerrar menú">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
-        <div class="mobile-nav-logo">MARENE</div>
-        <nav class="mobile-nav-links">
-            <a href="index.html" class="mobile-nav-link">Inicio</a>
-            <a href="catalogo.html" class="mobile-nav-link">Catálogo</a>
-            <a href="nosotros.html" class="mobile-nav-link">Sobre Nosotros</a>
-            <a href="contacto.html" class="mobile-nav-link">Contacto</a>
-        </nav>
-    </div>
-    <div id="site-overlay" class="site-overlay"></div>
-
-    <!-- Carrito Lateral (Drawer) -->
-    <div id="cart-overlay" class="cart-overlay"></div>
-    <div id="cart-drawer" class="cart-drawer" aria-hidden="true" role="dialog">
-        <div class="cart-drawer-header">
-            <h3>Bolsa de Compra</h3>
-            <button id="cart-close-btn" class="cart-close-btn" aria-label="Cerrar Carrito">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
-        <div id="cart-drawer-items" class="cart-drawer-body">
-            <!-- Items del carrito se inyectan aquí con JS -->
-        </div>
-        <div class="cart-drawer-footer" style="display: none;">
-            <div class="cart-subtotal">
-                <span class="cart-subtotal-label">Subtotal</span>
-                <span id="cart-subtotal-val" class="cart-subtotal-val">$0 COP</span>
-            </div>
-            <p class="cart-shipping-notice">El costo de envío y detalles serán coordinados al finalizar por WhatsApp.</p>
-            <button id="cart-checkout-btn" class="btn btn-primary">Finalizar por WhatsApp</button>
-        </div>
-    </div>
-
-    <!-- 3. Hero Principal (Visual & Aspiracional) -->
-    <section class="hero-section" aria-label="Bienvenida a MARENE">
-        <div class="hero-bg" style="background-image: url('assets/images/hero-bg.png');"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <span class="hero-subtitle">Colección Atemporal</span>
-            <h1 class="hero-title">MARENE</h1>
-            <p class="hero-description">Elegancia sutil y diseño minimalista para acompañarte en cada ocasión.</p>
-            <a href="catalogo.html" class="btn btn-primary">Comprar Ahora</a>
-        </div>
-    </section>
-
-    <!-- 4. Sección de Categorías -->
-    <section class="section-padding reveal container">
-        <div class="section-title">
-            <h2>Explora las Colecciones</h2>
-            <p>Piezas diseñadas para complementar tu estilo único</p>
-        </div>
-        
-        <div id="home-categories-grid" class="categories-grid">
-            <!-- Las categorías habilitadas se renderizan automáticamente desde js/data.js -->
-        </div>
-    </section>
-
-    <!-- 5. Productos Destacados -->
-    <section class="section-padding reveal" style="background-color: var(--color-bg-secondary);">
-        <div class="container">
-            <div class="section-title">
-                <h2>Nuestros Favoritos</h2>
-                <p>Las piezas más deseadas de la temporada</p>
-            </div>
-            
-            <div id="featured-products-grid" class="products-grid">
-                <!-- Productos se cargan dinámicamente con JS -->
-            </div>
-            
-            <div style="text-align: center; margin-top: var(--spacing-xl);">
-                <a href="catalogo.html" class="btn btn-secondary">Ver Catálogo Completo</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. Banner Promocional -->
-    <section class="promo-section section-padding reveal">
-        <div class="container">
-            <div class="promo-content-grid">
-                <div class="promo-text">
-                    <span class="promo-tag">Edición Especial</span>
-                    <h2 class="promo-title">El Arte de los Detalles</h2>
-                    <p class="promo-desc">
-                        Nuestra joyería está diseñada bajo el concepto del minimalismo cálido. Creemos que una pieza pequeña puede transformar por completo tu actitud y presencia. Todos nuestros accesorios cuentan con baños de metales preciosos seleccionados a mano.
-                    </p>
-                    <a href="catalogo.html?cat=collares" class="btn btn-primary">Explorar Collares</a>
-                </div>
-                <div class="promo-image-wrapper">
-                    <img src="assets/images/collar-aura-3.png" alt="Detalle de joyería minimalista MARENE">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. Beneficios de Comprar en MARENE -->
-    <section class="section-padding reveal container">
-        <div class="section-title">
-            <h2>Experiencia MARENE</h2>
-            <p>Cada detalle pensado exclusivamente para ti</p>
-        </div>
-        
-        <div class="benefits-grid">
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124l-.228-3.602a5.625 5.625 0 00-4.485-5.228l-2.28-.456A1.125 1.125 0 0013.5 5.25h-8.25a1.125 1.125 0 00-1.125 1.125v6.75"/>
-                    </svg>
-                </div>
-                <h3>Envíos Seguros</h3>
-                <p>Envíos garantizados a toda Colombia con rastreo en tiempo real.</p>
-            </div>
-            
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/>
-                    </svg>
-                </div>
-                <h3>Alta Calidad</h3>
-                <p>Baño de oro premium e hipoalergénicos para cuidar tu piel.</p>
-            </div>
-            
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
-                <h3>Pago Confiable</h3>
-                <p>Transferencias directas seguras y confirmaciones rápidas.</p>
-            </div>
-            
-            <div class="benefit-item">
-                <div class="benefit-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-3.658A8.951 8.951 0 013 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/>
-                    </svg>
-                </div>
-                <h3>Asesoría 1-a-1</h3>
-                <p>Atención personalizada por WhatsApp para elegir la joya ideal.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. Testimonios -->
-    <section class="section-padding reveal" style="background-color: var(--color-bg-secondary);">
-        <div class="container">
-            <div class="testimonials-slider">
-                
-                <div class="testimonial-item active">
-                    <p class="testimonial-quote">"Los aretes son divinos, no pesan nada y el empaque huele delicioso. La atención fue súper rápida por WhatsApp. ¡Volveré a comprar sin duda!"</p>
-                    <span class="testimonial-author">Valentina R. — Bogotá</span>
-                </div>
-                
-                <div class="testimonial-item">
-                    <p class="testimonial-quote">"Buscaba un collar sencillo para el uso diario y el Aura de Oro superó mis expectativas. Ya llevo un mes usándolo y el brillo sigue intacto. Muy recomendado."</p>
-                    <span class="testimonial-author">Camila M. — Medellín</span>
-                </div>
-                
-                <div class="testimonial-item">
-                    <p class="testimonial-quote">"Compré un set para regalarle a mi hermana y quedó fascinada. La presentación de la caja y los saquitos de tela hacen que se sienta un regalo sumamente exclusivo."</p>
-                    <span class="testimonial-author">Gabriela T. — Santa Marta</span>
-                </div>
-                
-                <div class="testimonial-dots">
-                    <button class="dot active" onclick="currentTestimonial(0)" aria-label="Ver testimonio 1"></button>
-                    <button class="dot" onclick="currentTestimonial(1)" aria-label="Ver testimonio 2"></button>
-                    <button class="dot" onclick="currentTestimonial(2)" aria-label="Ver testimonio 3"></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 9. Instagram Grid -->
-    <section class="section-padding reveal container">
-        <div class="section-title">
-            <h2>Síguenos en @MARENE</h2>
-            <p>Únete a nuestra comunidad y comparte tu brillo</p>
-        </div>
-        
-        <div class="instagram-grid">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="instagram-item">
-                <img src="assets/images/aretes-solstice-2.png" alt="Instagram MARENE 1">
-                <div class="instagram-hover"><span>Ver en Instagram</span></div>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="instagram-item">
-                <img src="assets/images/collar-aura-2.png" alt="Instagram MARENE 2">
-                <div class="instagram-hover"><span>Ver en Instagram</span></div>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="instagram-item">
-                <img src="assets/images/pulsera-twist-2.png" alt="Instagram MARENE 3">
-                <div class="instagram-hover"><span>Ver en Instagram</span></div>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="instagram-item">
-                <img src="assets/images/anillo-twist-2.png" alt="Instagram MARENE 4">
-                <div class="instagram-hover"><span>Ver en Instagram</span></div>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="instagram-item">
-                <img src="assets/images/set-celeste-2.png" alt="Instagram MARENE 5">
-                <div class="instagram-hover"><span>Ver en Instagram</span></div>
-            </a>
-        </div>
-    </section>
-
-    <!-- 10. Footer Completo -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <!-- Columna Logo/Sobre nosotros -->
-                <div class="footer-col">
-                    <div class="footer-logo">MARENE</div>
-                    <p>MARENE es una marca de accesorios de mujer colombiana. Ofrecemos piezas minimalistas, versátiles y de excelente calidad para mujeres modernas y elegantes.</p>
-                </div>
-                
-                <!-- Columna Enlaces de políticas -->
-                <div class="footer-col">
-                    <h3>Políticas</h3>
-                    <ul class="footer-links">
-                        <li><a href="contacto.html">Envíos y Entregas</a></li>
-                        <li><a href="contacto.html">Garantías y Devoluciones</a></li>
-                        <li><a href="contacto.html">Términos del Servicio</a></li>
-                        <li><a href="contacto.html">Preguntas Frecuentes</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Columna Contacto/Soporte -->
-                <div class="footer-col">
-                    <h3>Contacto</h3>
-                    <ul class="footer-links">
-                        <li><a href="mailto:hola@marene.com">hola@marene.com</a></li>
-                        <li><a href="https://wa.me/573001234567" target="_blank">+57 300 123 4567</a></li>
-                        <li><p>Atención: Lun a Sáb 8am - 6pm</p></li>
-                        <li><p>Santa Marta, Colombia</p></li>
-                    </ul>
-                </div>
-                
-                <!-- Columna Newsletter -->
-                <div class="footer-col">
-                    <h3>Newsletter</h3>
-                    <p>Suscríbete para recibir noticias de colecciones exclusivas y promociones.</p>
-                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('¡Gracias por suscribirte!'); this.reset();">
-                        <input type="email" placeholder="Tu correo electrónico" required aria-label="Ingresa tu correo">
-                        <button type="submit">Unirme</button>
-                    </form>
-                    <div class="footer-socials">
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-                                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="TikTok">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <path d="M9 12a4 4 0 104 4V4h4a4 4 0 004-4h-4a8 8 0 01-8 8v4z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; <span id="footer-year">2026</span> MARENE. Todos los derechos reservados.</p>
-                <p>Diseño Elegante Colombiano.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JS Scripts -->
+    <a href="https://wa.me/573001234567?text=Hola%20MARENE%2C%20quiero%20más%20información%20de%20sus%20accesorios" class="whatsapp-fixed" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2h-1l-1 1-2-2h-4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4z"/><path d="M17 10l-3 3-3-3"/></svg></a>
     <script src="js/data.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/favorites.js"></script>
-    <script src="js/main.js"></script>
-    
     <script>
-        // Lógica específica para la Home Page
-        
-        // 1. Renderizar Productos Destacados en la Home
-        function renderFeaturedProducts() {
-            const grid = document.getElementById('featured-products-grid');
-            if (!grid || !window.PRODUCTS) return;
-            
-            // Filtrar productos marcados como destacados
-            const featuredList = window.PRODUCTS.filter(p => p.featured).slice(0, 4);
-            
-            let html = '';
-            featuredList.forEach(product => {
-                const isFav = window.isFavorite ? window.isFavorite(product.id) : false;
-                const heartFill = isFav ? 'currentColor' : 'none';
-                const activeClass = isFav ? 'active' : '';
-                
-                html += `
-                    <div class="product-card" data-id="${product.id}">
-                        <div class="product-card-image">
-                            <a href="producto.html?id=${product.id}">
-                                <img src="${product.mainImage}" alt="${product.name}" class="product-main-img">
-                                <img src="${product.hoverImage}" alt="${product.name}" class="product-hover-img">
-                            </a>
-                            <button class="fav-btn ${activeClass}" data-id="${product.id}" onclick="toggleFavorite('${product.id}')" aria-label="Agregar a favoritos">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="${heartFill}" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-                                </svg>
-                            </button>
-                            ${product.new ? '<span class="product-badge badge-new">Nuevo</span>' : ''}
-                        </div>
-                        <div class="product-card-info">
-                            <p class="product-card-category">${product.categoryLabel}</p>
-                            <h3 class="product-card-title"><a href="producto.html?id=${product.id}">${product.name}</a></h3>
-                            <div class="product-card-footer">
-                                <span class="product-card-price">${window.formatCOP(product.price)}</span>
-                                <button class="btn-add-cart-icon" onclick="addToCart('${product.id}')" aria-label="Agregar al carrito">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            grid.innerHTML = html;
+        const categoryNav = document.getElementById('category-nav');
+        const productGrid = document.getElementById('product-grid');
+        const productCount = document.getElementById('product-count');
+
+        const categories = [{ id: 'all', label: 'Todo' }].concat((window.CATEGORIES || []).filter(cat => cat.enabled));
+
+        function formatCOP(value) {
+            return '$' + Number(value).toLocaleString('es-CO') + ' COP';
         }
 
-        // 2. Slider de Testimonios
-        let currentTestimonialIndex = 0;
-        const testimonials = document.querySelectorAll('.testimonial-item');
-        const dots = document.querySelectorAll('.dot');
-
-        function showTestimonial(index) {
-            testimonials.forEach(t => t.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            
-            testimonials[index].classList.add('active');
-            dots[index].classList.add('active');
-            currentTestimonialIndex = index;
-        }
-
-        function currentTestimonial(index) {
-            showTestimonial(index);
-        }
-
-        // Auto rotación de testimonios cada 6 segundos
-        let testimonialInterval = setInterval(() => {
-            let next = (currentTestimonialIndex + 1) % testimonials.length;
-            showTestimonial(next);
-        }, 6000);
-
-        // Limpiar intervalo si el usuario interactúa
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                clearInterval(testimonialInterval);
-            });
-        });
-
-        // Inicializar lógica de Home
-        document.addEventListener('DOMContentLoaded', () => {
-            renderFeaturedProducts();
-            
-            // Si el favoritos se actualiza, refrescar las tarjetas para pintar/despintar corazones
-            window.addEventListener('favoritesUpdated', () => {
-                const heartButtons = document.querySelectorAll('.product-card .fav-btn');
-                heartButtons.forEach(btn => {
-                    const id = btn.getAttribute('data-id');
-                    const isFav = window.isFavorite ? window.isFavorite(id) : false;
-                    const path = btn.querySelector('path');
-                    if (isFav) {
-                        btn.classList.add('active');
-                        if (path) path.setAttribute('fill', 'currentColor');
-                    } else {
-                        btn.classList.remove('active');
-                        if (path) path.setAttribute('fill', 'none');
-                    }
+        function renderCategoryBar(activeId = 'all') {
+            categoryNav.innerHTML = categories.map(cat => `
+                <button type="button" class="category-chip${cat.id === activeId ? ' active' : ''}" data-category="${cat.id}">
+                    ${cat.label}
+                </button>
+            `).join('');
+            categoryNav.querySelectorAll('.category-chip').forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.dataset.category;
+                    renderProducts(category);
+                    renderCategoryBar(category);
                 });
             });
+        }
+
+        function renderProducts(category = 'all') {
+            const list = (window.PRODUCTS || []).filter(product => category === 'all' || product.category === category);
+            productCount.textContent = `${list.length} productos disponibles`;
+            productGrid.innerHTML = list.map(product => `
+                <a class="product-card" href="./producto.html?id=${product.id}">
+                    <div class="product-image">
+                        <img src="${product.mainImage}" alt="${product.name}">
+                        <span class="product-action" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">${product.name}</p>
+                        <p class="product-price">${formatCOP(product.price)}</p>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategoryBar();
+            renderProducts();
         });
     </script>
 </body>
