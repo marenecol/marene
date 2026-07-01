@@ -23,7 +23,7 @@ function debounce(func, delay) {
 
 // 1. Sticky Header al hacer Scroll
 function handleHeaderScroll() {
-    const header = document.querySelector('.site-header');
+    const header = document.querySelector('.page-header');
     if (!header) return;
     
     if (window.scrollY > 30) {
@@ -58,7 +58,6 @@ function initMobileMenu() {
     if (closeBtn) closeBtn.addEventListener('click', closeMenu);
     overlay.addEventListener('click', closeMenu);
     
-    // Cerrar menú al hacer clic en un enlace móvil (para SPAs o anclas)
     const mobileLinks = drawer.querySelectorAll('.mobile-nav-link');
     mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
 }
@@ -73,7 +72,6 @@ function initInstantSearch() {
     
     if (!searchBtn || !searchOverlay || !searchInput || !resultsContainer) return;
     
-    // Alternar visibilidad de la barra de búsqueda
     const openSearch = () => {
         searchOverlay.classList.add('active');
         searchInput.focus();
@@ -97,14 +95,12 @@ function initInstantSearch() {
     
     if (searchClose) searchClose.addEventListener('click', closeSearch);
     
-    // Cerrar buscador con la tecla Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
             closeSearch();
         }
     });
     
-    // Lógica de filtrado en tiempo real
     const handleSearchInput = () => {
         const query = searchInput.value.toLowerCase().trim();
         
@@ -116,27 +112,25 @@ function initInstantSearch() {
         
         if (!window.PRODUCTS) return;
         
-        // Filtrar productos
         const filtered = window.PRODUCTS.filter(product => {
             return (
                 product.name.toLowerCase().includes(query) ||
                 product.categoryLabel.toLowerCase().includes(query) ||
                 product.description.toLowerCase().includes(query)
             );
-        }).slice(0, 5); // Limitar a 5 resultados sugeridos
+        }).slice(0, 5);
         
         if (filtered.length === 0) {
             const safeQuery = escapeHTML(searchInput.value);
             resultsContainer.innerHTML = `
-                <div style="padding: 1rem; text-align: center; font-size: 0.9rem; color: var(--color-text-secondary);">
-                    No se encontraron productos para "${safeQuery}"
+                <div style="padding: 1rem; text-align: center; font-size: 0.9rem; color: #777;">
+                    No se encontraron collares para "${safeQuery}"
                 </div>
             `;
             resultsContainer.style.display = 'block';
             return;
         }
         
-        // Renderizar resultados
         let html = '';
         filtered.forEach(product => {
             html += `
@@ -157,26 +151,24 @@ function initInstantSearch() {
     searchInput.addEventListener('input', debounce(handleSearchInput, 200));
 }
 
-// 4. Animación de Revelado en Scroll (Intersection Observer)
+// 4. Animación de Revelado en Scroll
 function initScrollReveal() {
     const reveals = document.querySelectorAll('.reveal');
-    
     if (reveals.length === 0) return;
     
     const revealCallback = (entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                // Dejar de observar una vez animado
                 observer.unobserve(entry.target);
             }
         });
     };
     
     const revealObserver = new IntersectionObserver(revealCallback, {
-        root: null, // viewport
-        threshold: 0.15, // se activa cuando el 15% del elemento es visible
-        rootMargin: "0px 0px -50px 0px" // activa ligeramente antes de entrar
+        root: null,
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
     });
     
     reveals.forEach(element => {
@@ -184,89 +176,21 @@ function initScrollReveal() {
     });
 }
 
-// 5. Cargar Footer Dinámico de Derechos de Autor (Año actual)
-function initFooterYear() {
-    const yearEl = document.getElementById('footer-year');
-    if (yearEl) {
-        yearEl.textContent = new Date().getFullYear();
-    }
-}
-
-// 6. Renderizar categorías dinámicamente según configuración global
+// 5. Renderizar categorías dinámicamente según configuración global
 function renderDynamicCategoryElements() {
     if (window.CATEGORIES && window.CATEGORIES.length) {
         const categoryFilterList = document.getElementById('category-filters');
         if (categoryFilterList) {
             categoryFilterList.innerHTML = '';
             const allItem = document.createElement('li');
-            allItem.innerHTML = `<button class="filter-btn active" data-cat="all">Todos <span class="filter-count" id="count-all">0</span></button>`;
+            allItem.innerHTML = `<button class="filter-btn active" data-cat="all">Collares <span class="filter-count" id="count-all">0</span></button>`;
             categoryFilterList.appendChild(allItem);
-
-            window.CATEGORIES.forEach(category => {
-                if (!category.enabled) return;
-                const item = document.createElement('li');
-                item.innerHTML = `
-                    <button class="filter-btn" data-cat="${category.id}">
-                        ${category.label}
-                        <span class="filter-count" id="count-${category.id}">0</span>
-                    </button>
-                `;
-                categoryFilterList.appendChild(item);
-            });
-        }
-
-        const homeCategoriesGrid = document.getElementById('home-categories-grid');
-        if (homeCategoriesGrid) {
-            homeCategoriesGrid.innerHTML = '';
-            window.CATEGORIES.forEach(category => {
-                if (!category.enabled) return;
-                const card = document.createElement('a');
-                card.className = 'category-card category-card-placeholder';
-                card.href = '#productos';
-                card.innerHTML = `
-                    <div class="category-card-visual"></div>
-                    <div class="category-overlay">
-                        <h3 class="category-name">${category.label}</h3>
-                        <span class="category-btn">Ver piezas</span>
-                    </div>
-                `;
-                homeCategoriesGrid.appendChild(card);
-            });
-
-            // Si sólo hay una categoría habilitada, usar una sola tarjeta más grande en el home.
-            const activeCount = window.CATEGORIES.filter(cat => cat.enabled).length;
-            if (activeCount === 1) {
-                homeCategoriesGrid.classList.add('single-category-grid');
-            } else {
-                homeCategoriesGrid.classList.remove('single-category-grid');
-            }
         }
     }
 }
 
-// 7. Botón flotante de WhatsApp para toda la tienda
-function createWhatsAppFloatButton() {
-    if (document.querySelector('.whatsapp-fixed, .whatsapp-float')) return;
-
-    const whatsappNumber = window.CONFIG && window.CONFIG.whatsappNumber ? window.CONFIG.whatsappNumber : '573001234567';
-    const message = window.CONFIG && window.CONFIG.whatsappIntro ? window.CONFIG.whatsappIntro : 'Hola MARENE, quiero recibir atención personalizada para mi pedido.';
-    const encodedMessage = encodeURIComponent(message);
-    const button = document.createElement('a');
-    button.id = 'whatsapp-float-btn';
-    button.className = 'whatsapp-float';
-    button.href = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-    button.target = '_blank';
-    button.rel = 'noopener noreferrer';
-    button.innerHTML = `
-        <span class="whatsapp-float__icon" aria-hidden="true">+</span>
-        <span class="whatsapp-float__label">Escríbenos</span>
-    `;
-    document.body.appendChild(button);
-}
-
 // Inicializar todas las funcionalidades al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    // Escuchar el scroll del header con throttle mediante requestAnimationFrame
     let scrollTicker = false;
     window.addEventListener('scroll', () => {
         if (!scrollTicker) {
@@ -277,18 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollTicker = true;
         }
     });
-    handleHeaderScroll(); // comprobar estado inicial
+    handleHeaderScroll();
     
-    // Inicializaciones
     initMobileMenu();
     initInstantSearch();
     initScrollReveal();
-    initFooterYear();
     renderDynamicCategoryElements();
-    createWhatsAppFloatButton();
 });
 
-// Función global para generar el HTML de una tarjeta de producto (Product Card)
+// Función global para generar la tarjeta de producto (Forzando 2 columnas móviles mediante clases)
 function createProductCardHTML(product) {
     const formatFn = window.formatCOP || (val => `$${val}`);
     const image = product.mainImage || '';
@@ -311,39 +232,111 @@ function renderProductGrid() {
     grid.innerHTML = window.PRODUCTS.map(product => createProductCardHTML(product)).join('');
 }
 
+// NUEVA FUNCIÓN: Abre la vista detallada adaptada fielmente a los bocetos (image_11.png)
 function openProductDetail(productId) {
     const product = window.PRODUCTS.find(item => item.id === productId);
     if (!product) return;
 
     const overlay = document.getElementById('detail-overlay');
-    const detailImage = document.getElementById('detail-image');
-    const detailName = document.getElementById('detail-name');
-    const detailSpecs = document.getElementById('detail-specs');
-    const detailMeasures = document.getElementById('detail-measures');
-    const detailPrice = document.getElementById('detail-price');
+    const detailContentContainer = document.querySelector('.detail-content');
+    
+    if (!overlay || !detailContentContainer) return;
+
+    // Inyectamos dinámicamente los componentes solicitados en tu tablet: Carrusel secundario, selectores y textos plano.
+    detailContentContainer.innerHTML = `
+        <!-- Bloque izquierdo: Foto de producto y fila de miniaturas (Boceto image_11.png) -->
+        <div class="detail-media-container" style="display: grid; gap: 0.8rem;">
+            <img id="detail-image" class="detail-image" src="${product.mainImage}" alt="${product.name}" style="width: 100%; border-radius: 1.25rem; aspect-ratio: 1/1; object-fit: cover;">
+            <div class="detail-thumbnails" style="display: flex; gap: 0.5rem; justify-content: flex-start;">
+                ${(product.images || [product.mainImage]).map(imgUrl => `
+                    <img src="${imgUrl}" alt="Miniatura" onclick="document.getElementById('detail-image').src='${imgUrl}'" style="width: 60px; height: 60px; object-fit: cover; border-radius: 0.5rem; cursor: pointer; border: 1px solid rgba(0,0,0,0.1);">
+                `).join('')}
+            </div>
+        </div>
+
+        <!-- Bloque derecho: Textos informativos, selector de color y cantidad (Boceto image_11.png) -->
+        <div class="detail-info" style="display: grid; gap: 1rem; text-align: left;">
+            <h2 id="detail-name" style="margin:0; font-size: 1.8rem; text-transform: uppercase;">${product.name}</h2>
+            
+            <div class="detail-meta">
+                <div style="margin-bottom: 0.5rem;">
+                    <p class="detail-meta-label" style="margin:0; font-weight:bold; color:#777; font-size:0.8rem; text-transform:uppercase;">Descripción</p>
+                    <p class="detail-meta-text" style="margin:0.2rem 0; color:#444;">${product.description}</p>
+                </div>
+                <div style="margin-bottom: 0.5rem;">
+                    <p class="detail-meta-label" style="margin:0; font-weight:bold; color:#777; font-size:0.8rem; text-transform:uppercase;">Especificaciones</p>
+                    <p class="detail-meta-text" style="margin:0.2rem 0; color:#444;">${product.material || 'No especificado'}</p>
+                </div>
+                <div style="margin-bottom: 0.5rem;">
+                    <p class="detail-meta-label" style="margin:0; font-weight:bold; color:#777; font-size:0.8rem; text-transform:uppercase;">Medidas</p>
+                    <p class="detail-meta-text" style="margin:0.2rem 0; color:#444;">${product.dimensions || 'No especificado'}</p>
+                </div>
+            </div>
+
+            <!-- Selector dinámico de Color con círculos (Boceto image_11.png) -->
+            <div class="color-selection-container">
+                <p style="margin: 0 0 0.4rem; font-weight: bold; color: #777; font-size: 0.8rem; text-transform: uppercase;">Color</p>
+                <div style="display: flex; gap: 0.8rem;" id="color-circles-wrapper">
+                    ${(product.colors || [{hex: '#c8a97b', name: 'Único'}]).map((col, idx) => `
+                        <button type="button" class="color-circle-btn ${idx === 0 ? 'active' : ''}" data-color-name="${col.name}" onclick="selectColorBubble(this)" style="width: 28px; height: 28px; background: ${col.hex}; border-radius: 50%; border: ${idx === 0 ? '2px solid #111' : '1px solid rgba(0,0,0,0.2)'}; cursor: pointer; transform: ${idx === 0 ? 'scale(1.1)' : 'none'};"></button>
+                    `).join('')}
+                </div>
+                <p id="selected-color-label" style="margin: 0.3rem 0 0; font-size: 0.85rem; color: #111;">Seleccionado: <strong>${product.colors ? product.colors[0].name : 'Único'}</strong></p>
+            </div>
+
+            <!-- Selector de cantidad integrado (Boceto image_11.png) -->
+            <div class="quantity-selection-container">
+                <p style="margin: 0 0 0.4rem; font-weight: bold; color: #777; font-size: 0.8rem; text-transform: uppercase;">Cantidad</p>
+                <div style="display: flex; align-items: center; gap: 0.5rem; background: #f4f4f4; width: max-content; padding: 0.3rem 0.8rem; border-radius: 999px;">
+                    <button type="button" onclick="let q = document.getElementById('detail-qty-val'); let v = parseInt(q.textContent); if(v > 1) q.textContent = v - 1;" style="font-weight:bold; font-size:1.1rem;">-</button>
+                    <span id="detail-qty-val" style="font-weight:bold; min-width: 20px; text-align:center;">1</span>
+                    <button type="button" onclick="let q = document.getElementById('detail-qty-val'); let v = parseInt(q.textContent); q.textContent = v + 1;" style="font-weight:bold; font-size:1.1rem;">+</button>
+                </div>
+            </div>
+
+            <p id="detail-price" class="detail-price" style="margin:0; font-size:1.8rem; font-weight:bold;">${window.formatCOP(product.price)}</p>
+            
+            <div class="detail-actions" style="display: grid; gap: 0.6rem; margin-top: 0.5rem;">
+                <button id="detail-add-to-cart" class="btn-secondary" type="button" style="width: 100%; border: 1px solid #111; padding: 0.8rem; border-radius: 999px; text-transform: uppercase; font-size: 0.85rem; font-weight: bold;">Agregar al carrito</button>
+                <button id="detail-buy-now" class="btn-primary" type="button" style="width: 100%; background: #111; color: #fff; padding: 0.8rem; border-radius: 999px; text-transform: uppercase; font-size: 0.85rem; font-weight: bold;">Comprar ahora</button>
+            </div>
+        </div>
+    `;
+
+    // Vinculamos los eventos de los botones recolectando la información en tiempo de clic
     const addCartBtn = document.getElementById('detail-add-to-cart');
     const buyNowBtn = document.getElementById('detail-buy-now');
 
-    if (!overlay || !detailImage || !detailName || !detailSpecs || !detailMeasures || !detailPrice || !addCartBtn || !buyNowBtn) return;
-
-    detailImage.src = product.mainImage;
-    detailImage.alt = product.name;
-    detailName.textContent = product.name;
-    detailSpecs.textContent = product.material || product.description || 'Material no disponible';
-    detailMeasures.textContent = product.dimensions || 'Medidas no disponibles';
-    detailPrice.textContent = formatCOP(product.price);
-
     addCartBtn.onclick = () => {
-        addToCart(product.id, 1);
+        const selectedColor = document.getElementById('selected-color-label').querySelector('strong').textContent;
+        const selectedQty = parseInt(document.getElementById('detail-qty-val').textContent, 10);
+        addToCart(product.id, selectedQty, selectedColor);
         closeProductDetail();
     };
 
     buyNowBtn.onclick = () => {
-        buyProductWhatsApp(product.id, 1);
+        const selectedColor = document.getElementById('selected-color-label').querySelector('strong').textContent;
+        const selectedQty = parseInt(document.getElementById('detail-qty-val').textContent, 10);
+        buyProductWhatsApp(product.id, selectedQty, selectedColor);
     };
 
     overlay.classList.remove('hidden');
     document.body.classList.add('no-scroll');
+}
+
+// Función auxiliar para manejar el clic visual de los círculos de colores
+function selectColorBubble(element) {
+    const wrapper = document.getElementById('color-circles-wrapper');
+    const buttons = wrapper.querySelectorAll('.color-circle-btn');
+    buttons.forEach(btn => {
+        btn.style.border = '1px solid rgba(0,0,0,0.2)';
+        btn.style.transform = 'none';
+    });
+    element.style.border = '2px solid #111';
+    element.style.transform = 'scale(1.1)';
+    
+    const colorName = element.getAttribute('data-color-name');
+    document.getElementById('selected-color-label').querySelector('strong').textContent = colorName;
 }
 
 function closeProductDetail() {
@@ -371,3 +364,4 @@ window.createProductCardHTML = createProductCardHTML;
 window.openProductDetail = openProductDetail;
 window.closeProductDetail = closeProductDetail;
 window.initShopPage = initShopPage;
+window.selectColorBubble = selectColorBubble;

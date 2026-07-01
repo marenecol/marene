@@ -10,7 +10,7 @@ const CATEGORIES = [
 ];
 
 // Productos reales de la tienda.
-// No incluyas datos ficticios aquí.
+// Mapeamos los colores con su nombre en texto plano para el mensaje de WhatsApp.
 const PRODUCTS = [
     {
         id: 'collar-aura',
@@ -28,7 +28,12 @@ const PRODUCTS = [
         mainImage: 'assets/images/collar-aura-1.png',
         hoverImage: 'assets/images/collar-aura-2.png',
         images: ['assets/images/collar-aura-1.png', 'assets/images/collar-aura-2.png', 'assets/images/collar-aura-3.png'],
-        colors: ['#c8a97b', '#2f2a29', '#d9d2c7'],
+        // Colores configurados con código HEX y nombre para WhatsApp (Boceto image_11.png)
+        colors: [
+            { hex: '#c8a97b', name: 'Oro' },
+            { hex: '#d9d2c7', name: 'Plata' },
+            { hex: '#2f2a29', name: 'Oro Rosa' }
+        ],
         featured: true,
         new: true
     },
@@ -48,7 +53,10 @@ const PRODUCTS = [
         mainImage: 'assets/images/collar-luna-1.png',
         hoverImage: 'assets/images/collar-luna-2.png',
         images: ['assets/images/collar-luna-1.png', 'assets/images/collar-luna-2.png'],
-        colors: ['#e9d8be', '#6c6257', '#1d1a19'],
+        colors: [
+            { hex: '#e9d8be', name: 'Oro' },
+            { hex: '#6c6257', name: 'Plata Envejecida' }
+        ],
         featured: true,
         new: false
     }
@@ -56,7 +64,7 @@ const PRODUCTS = [
 
 const CONFIG = {
     siteName: 'MARENE',
-    whatsappNumber: '573001234567',
+    whatsappNumber: '573001234567', // Reemplázalo por tu número real cuando quieras
     whatsappIntro: 'Hola MARENE, quiero recibir atención personalizada para mi pedido.',
     whatsappOrderIntro: '✨ *NUEVO PEDIDO - MARENE* ✨\n\nHola, me gustaría realizar el siguiente pedido:',
     heroDescription: 'Elegancia sutil y diseño minimalista para acompañarte en cada ocasión.'

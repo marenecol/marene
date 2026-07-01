@@ -1,4 +1,4 @@
-// Lógica del Carrito de Compras para MARENE
+// Lógica del Carrito de Compras para MARENE (Con Soporte de Color y Cantidad)
 
 const CART_STORAGE_KEY = 'marene_cart';
 let cart = [];
@@ -43,37 +43,38 @@ function getCartItems() {
     if (!window.PRODUCTS) return [];
     return cart.map(item => {
         const product = window.PRODUCTS.find(p => p.id === item.id);
-        return product ? { ...product, quantity: item.quantity } : null;
+        return product ? { ...product, quantity: item.quantity, selectedColor: item.color || 'Único' } : null;
     }).filter(item => item !== null);
 }
 
-// Agregar producto al carrito
-function addToCart(productId, quantity = 1) {
-    const existingItem = cart.find(item => item.id === productId);
+// Agregar producto al carrito (Ahora guarda el color)
+function addToCart(productId, quantity = 1, color = 'Único') {
+    // Buscamos si ya existe el mismo producto con el mismo color
+    const existingItem = cart.find(item => item.id === productId && item.color === color);
     
     if (existingItem) {
-        existingItem.quantity += quantity;
+        existingItem.quantity += parseInt(quantity, 10);
     } else {
-        cart.push({ id: productId, quantity: quantity });
+        cart.push({ id: productId, quantity: parseInt(quantity, 10), color: color });
     }
     
     saveCart();
     openCartDrawer();
 }
 
-// Eliminar producto del carrito
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+// Eliminar producto del carrito (Maneja id y color)
+function removeFromCart(productId, color = 'Único') {
+    cart = cart.filter(item => !(item.id === productId && item.color === color));
     saveCart();
 }
 
-// Actualizar cantidad
-function updateQuantity(productId, quantity) {
-    const item = cart.find(item => item.id === productId);
+// Actualizar cantidad desde el carrito lateral
+function updateQuantity(productId, color, quantity) {
+    const item = cart.find(item => item.id === productId && item.color === color);
     if (item) {
         item.quantity = parseInt(quantity, 10);
         if (item.quantity <= 0) {
-            removeFromCart(productId);
+            removeFromCart(productId, color);
         } else {
             saveCart();
         }
@@ -129,21 +130,15 @@ function closeCartDrawer() {
     }
 }
 
-// Actualizar la interfaz del carrito (Drawer y Badges)
+// Actualizar la interfaz del carrito (Muestra el contador dinámico mi carrito (X))
 function updateCartUI() {
-    // 1. Actualizar badges de conteo en la página
     const badges = document.querySelectorAll('.cart-badge-count');
     const count = getCartCount();
     badges.forEach(badge => {
         badge.textContent = count;
-        if (count > 0) {
-            badge.style.display = 'inline-flex';
-        } else {
-            badge.style.display = 'none';
-        }
+        badge.style.display = count > 0 ? 'inline-flex' : 'none';
     });
 
-    // 2. Renderizar los productos dentro del drawer si existe el contenedor
     const cartItemsContainer = document.getElementById('cart-drawer-items');
     if (!cartItemsContainer) return;
 
@@ -152,12 +147,11 @@ function updateCartUI() {
 
     if (items.length === 0) {
         cartItemsContainer.innerHTML = `
-            <div class="cart-empty-message">
+            <div class="cart-empty-message" style="text-align: center; padding: 2rem; color: #777;">
                 <p>Tu carrito está vacío</p>
-                <a href="#productos" class="btn btn-secondary" onclick="closeCartDrawer()">Explorar Colección</a>
+                <a href="#productos" class="btn btn-secondary" onclick="closeCartDrawer()" style="text-decoration: underline; color: #111;">Explorar Colección</a>
             </div>
         `;
-        // Ocultar sección de totales si está vacío
         const footer = document.querySelector('.cart-drawer-footer');
         if (footer) footer.style.display = 'none';
     } else {
@@ -167,27 +161,23 @@ function updateCartUI() {
         let html = '';
         items.forEach(item => {
             html += `
-                <div class="cart-item" data-id="${item.id}">
-                    <div class="cart-item-image">
-                        <img src="${item.mainImage}" alt="${item.name}">
+                <div class="cart-item" data-id="${item.id}" data-color="${item.selectedColor}" style="display: flex; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #f2f2f2;">
+                    <div class="cart-item-image" style="width: 70px; height: 70px; background: #f7f5f0; border-radius: 0.5rem; overflow: hidden;">
+                        <img src="${item.mainImage || ''}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
-                    <div class="cart-item-details">
-                        <div class="cart-item-header">
-                            <h4 class="cart-item-title">${item.name}</h4>
-                            <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" aria-label="Eliminar artículo">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
+                    <div class="cart-item-details" style="flex: 1;">
+                        <div class="cart-item-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <h4 class="cart-item-title" style="margin: 0; font-size: 0.95rem; text-transform: uppercase;">${item.name}</h4>
+                            <button class="cart-item-remove" onclick="removeFromCart('${item.id}', '${item.selectedColor}')" style="color: #ff4d4d; font-size: 0.8rem;">Eliminar</button>
                         </div>
-                        <p class="cart-item-category">${item.categoryLabel}</p>
-                        <div class="cart-item-actions">
-                            <div class="quantity-selector">
-                                <button class="qty-btn qty-minus" onclick="updateQuantity('${item.id}', ${item.quantity - 1})" aria-label="Disminuir cantidad">-</button>
+                        <p class="cart-item-color" style="margin: 0.2rem 0; font-size: 0.85rem; color: #666;">Color: ${item.selectedColor}</p>
+                        <div class="cart-item-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                            <div class="quantity-selector" style="display: flex; align-items: center; gap: 0.5rem; background: #f4f4f4; padding: 0.2rem 0.5rem; border-radius: 999px;">
+                                <button onclick="updateQuantity('${item.id}', '${item.selectedColor}', ${item.quantity - 1})" style="font-weight: bold;">-</button>
                                 <span class="qty-val">${item.quantity}</span>
-                                <button class="qty-btn qty-plus" onclick="updateQuantity('${item.id}', ${item.quantity + 1})" aria-label="Aumentar cantidad">+</button>
+                                <button onclick="updateQuantity('${item.id}', '${item.selectedColor}', ${item.quantity + 1})" style="font-weight: bold;">+</button>
                             </div>
-                            <span class="cart-item-price">${formatCOP(item.price * item.quantity)}</span>
+                            <span class="cart-item-price" style="font-weight: bold; font-size: 0.9rem;">${formatCOP(item.price * item.quantity)}</span>
                         </div>
                     </div>
                 </div>
@@ -195,7 +185,6 @@ function updateCartUI() {
         });
         cartItemsContainer.innerHTML = html;
 
-        // Actualizar el subtotal en el footer
         const subtotalEl = document.getElementById('cart-subtotal-val');
         if (subtotalEl) {
             subtotalEl.textContent = formatCOP(total);
@@ -203,18 +192,18 @@ function updateCartUI() {
     }
 }
 
-// Proceder al checkout por WhatsApp
+// Proceder al checkout por WhatsApp (Recopila cantidad, color y datos - image_12.png)
 function checkoutWhatsApp() {
     const items = getCartItems();
     if (items.length === 0) return;
 
-    const phoneNumber = window.CONFIG && window.CONFIG.whatsappNumber ? window.CONFIG.whatsappNumber : '573001234567';
-    const intro = window.CONFIG && window.CONFIG.whatsappOrderIntro ? window.CONFIG.whatsappOrderIntro : '✨ *NUEVO PEDIDO - MARENE* ✨\n\nHola, me gustaría realizar el siguiente pedido:';
+    const phoneNumber = '573001234567'; // Número de prueba para Colombia
+    let message = `✨ *NUEVO PEDIDO - MARENE* ✨\n\nHola, me gustaría realizar el siguiente pedido desde el carrito:\n\n`;
     
-    let message = `${intro}\n\n`;
     items.forEach((item, index) => {
-        message += `${index + 1}. *${item.name}* (Cant: ${item.quantity})\n`;
-        message += `   - Categoría: ${item.categoryLabel}\n`;
+        message += `${index + 1}. *${item.name}*\n`;
+        message += `   - Color elegido: ${item.selectedColor}\n`;
+        message += `   - Cantidad: ${item.quantity}\n`;
         message += `   - Subtotal: ${formatCOP(item.price * item.quantity)}\n\n`;
     });
     
@@ -225,7 +214,7 @@ function checkoutWhatsApp() {
     message += `- Ciudad / Departamento:\n`;
     message += `- Dirección:\n`;
     message += `- Teléfono / WhatsApp:\n\n`;
-    message += `¿Me puedes indicar los pasos para realizar el pago? Muchas gracias. 🤍`;
+    message += `¿Me indicas los pasos para el pago? ¡Muchas gracias! 🤍`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -233,19 +222,19 @@ function checkoutWhatsApp() {
     window.open(whatsappUrl, '_blank');
 }
 
-function buyProductWhatsApp(productId, quantity = 1) {
+// Botón "Comprar ahora" directo de la ficha del producto (image_11.png)
+function buyProductWhatsApp(productId, quantity = 1, color = 'Único') {
     if (!window.PRODUCTS || !productId) return;
     const product = window.PRODUCTS.find(p => p.id === productId);
     if (!product) return;
 
-    const phoneNumber = window.CONFIG && window.CONFIG.whatsappNumber ? window.CONFIG.whatsappNumber : '573001234567';
-    const intro = window.CONFIG && window.CONFIG.whatsappIntro ? window.CONFIG.whatsappIntro : 'Hola MARENE, me interesa este producto:';
-    let message = `${intro}\n\n`;
+    const phoneNumber = '573001234567';
+    let message = `Hola MARENE, quiero hacer el pedido de este producto ahora mismo:\n\n`;
     message += `*${product.name}*\n`;
-    message += `Precio: ${formatCOP(product.price)}\n`;
-    message += `Cantidad: ${quantity}\n`;
-    message += `Categoría: ${product.categoryLabel}\n\n`;
-    message += 'Por favor indícame los pasos para confirmar el pedido y realizar el pago. Gracias. 🤍';
+    message += `- Color: ${color}\n`;
+    message += `- Cantidad: ${quantity}\n`;
+    message += `- Precio total: ${formatCOP(product.price * quantity)}\n\n`;
+    message += 'Por favor indícame los pasos para confirmar el envío y el pago. Gracias. 🤍';
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -256,14 +245,12 @@ function buyProductWhatsApp(productId, quantity = 1) {
 document.addEventListener('DOMContentLoaded', () => {
     initCart();
     
-    // Configurar listeners de cierre
     const closeBtn = document.getElementById('cart-close-btn');
     const overlay = document.getElementById('cart-overlay');
     
     if (closeBtn) closeBtn.addEventListener('click', closeCartDrawer);
     if (overlay) overlay.addEventListener('click', closeCartDrawer);
     
-    // Configurar checkout button
     const checkoutBtn = document.getElementById('cart-checkout-btn');
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', checkoutWhatsApp);
