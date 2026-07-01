@@ -32,13 +32,12 @@
         .header-action-btn:hover { transform: scale(1.05); }
         .cart-badge-count { position: absolute; top: -6px; right: -8px; background: #111; color: #fff; font-size: .65rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
 
-        /* NUEVO HERO CARRUSEL ESTILO SARTORINI */
+        /* HERO CARRUSEL ESTILO SARTORINI */
         .hero-carousel { position: relative; width: 100%; height: clamp(300px, 45vh, 500px); overflow: hidden; background: #f4f1ea; }
         .carousel-track { display: flex; width: 300%; height: 100%; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
         .carousel-slide { width: 33.333%; height: 100%; position: relative; flex-shrink: 0; }
         .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        /* Contenido superpuesto con diseño minimalista */
         .carousel-overlay-content { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.25); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem 10%; color: #fff; text-align: left; }
         .carousel-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; margin: 0 0 0.5rem; letter-spacing: .05em; text-transform: uppercase; line-height: 1.1; }
         .carousel-subtitle { font-size: clamp(0.85rem, 2vw, 1.1rem); margin: 0 0 1.5rem; max-width: 500px; color: rgba(255,255,255,0.9); font-weight: 300; }
@@ -46,16 +45,20 @@
         .btn-carousel-buy { display: inline-flex; align-items: center; justify-content: center; padding: 0.85rem 2rem; border-radius: 999px; background: #fff; color: #111; text-transform: uppercase; letter-spacing: .15em; font-size: .75rem; font-weight: 600; border: 1px solid #fff; transition: all .2s ease; }
         .btn-carousel-buy:hover { background: transparent; color: #fff; }
 
-        /* Controles de flechas laterales */
         .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: background .2s; z-index: 10; }
         .carousel-arrow:hover { background: rgba(255,255,255,0.4); }
         .arrow-left { left: 1rem; }
         .arrow-right { right: 1rem; }
 
-        /* Indicadores de bolitas abajo */
         .carousel-indicators { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; z-index: 10; }
-        .indicator-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: background .2s; }
+        .indicator-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: background .2s; cursor: pointer; }
         .indicator-dot.active { background: #fff; width: 20px; border-radius: 999px; }
+
+        /* FILTROS DE CATEGORÍA MINIMALISTAS */
+        .filter-container { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 2.5rem; padding: 0 1rem; }
+        .btn-filter { padding: 0.6rem 1.5rem; border-radius: 999px; border: 1px solid rgba(17,17,17,.15); background: transparent; color: #555; font-size: .8rem; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; transition: all .2s ease; }
+        .btn-filter:hover { border-color: #111; color: #111; }
+        .btn-filter.active { background: #111; color: #fff; border-color: #111; font-weight: 600; }
 
         /* GRID DE PRODUCTOS EN 2 COLUMNAS MÓVILES */
         .product-section { max-width: 1200px; margin: 0 auto; padding: 3rem 1rem 4rem; }
@@ -97,7 +100,7 @@
         .footer-socials-text p { margin: 0; }
         .footer-note { margin: 0; color: #777; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; }
 
-        /* BOTÓN FLOTANTE DE WHATSAPP (SARTORINI STYLE) */
+        /* BOTÓN FLOTANTE DE WHATSAPP */
         .whatsapp-fixed-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #25D366; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(37,211,102,0.3); z-index: 40; transition: transform .2s ease; }
         .whatsapp-fixed-btn:hover { transform: scale(1.1); }
         .whatsapp-fixed-btn svg { width: 30px; height: 30px; fill: currentColor; }
@@ -117,7 +120,7 @@
                 <a href="#inicio" class="brand-logo">MARENE</a>
                 <nav class="site-nav" aria-label="Navegación principal">
                     <a class="nav-link active" href="#inicio">Inicio</a>
-                    <a class="nav-link" href="#productos">Collares</a>
+                    <a class="nav-link" href="#productos">Catálogo</a>
                     <a class="nav-link" href="#footer">Contactos</a>
                 </nav>
                 <div class="header-actions">
@@ -133,13 +136,12 @@
         </header>
 
         <main id="inicio">
-            <!-- NUEVO COMPONENTE: Carrusel de Fotos Dinámico con Textos e Indicadores -->
+            <!-- Carrusel de Fotos Dinámico -->
             <section class="hero-carousel" aria-label="Destacados de la marca">
                 <button class="carousel-arrow arrow-left" onclick="moveSlide(-1)" aria-label="Anterior slide">&#10094;</button>
                 <button class="carousel-arrow arrow-right" onclick="moveSlide(1)" aria-label="Siguiente slide">&#10095;</button>
                 
                 <div class="carousel-track" id="carouselTrack">
-                    <!-- Slide 1 (Para cambiar las fotos edita el src="") -->
                     <div class="carousel-slide">
                         <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1200&auto=format&fit=crop" alt="Colección Aura">
                         <div class="carousel-overlay-content">
@@ -148,7 +150,6 @@
                             <a href="#productos" class="btn-carousel-buy">Comprar ahora</a>
                         </div>
                     </div>
-                    <!-- Slide 2 -->
                     <div class="carousel-slide">
                         <img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=1200&auto=format&fit=crop" alt="Diseño Effortless">
                         <div class="carousel-overlay-content">
@@ -157,7 +158,6 @@
                             <a href="#productos" class="btn-carousel-buy">Ver Colección</a>
                         </div>
                     </div>
-                    <!-- Slide 3 -->
                     <div class="carousel-slide">
                         <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1200&auto=format&fit=crop" alt="Plata de Ley">
                         <div class="carousel-overlay-content">
@@ -175,7 +175,13 @@
                 </div>
             </section>
 
+            <!-- Sección de Catálogo con Filtros Integrados -->
             <section class="product-section" id="productos">
+                <div class="filter-container">
+                    <button class="btn-filter active" onclick="applyCategoryFilter('all', this)">Todos</button>
+                    <button class="btn-filter" onclick="applyCategoryFilter('collares', this)">Collares</button>
+                    <button class="btn-filter" onclick="applyCategoryFilter('cinturones', this)">Cinturones</button>
+                </div>
                 <div class="product-grid" id="product-grid"></div>
             </section>
         </main>
@@ -225,7 +231,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTS DE COMPORTAMIENTO Y LOGICA DEL CARRUSEL AUTOMÁTICO -->
+    <!-- SCRIPTS DE COMPORTAMIENTO -->
     <script src="js/data.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/main.js"></script>
@@ -255,7 +261,29 @@
             updateSlidePosition();
         }
 
-        // Cambio automático de fotos cada 5 segundos
+        // Lógica de filtrado dinámico local
+        function applyCategoryFilter(category, currentButton) {
+            // Alternar clases activas en los botones
+            document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
+            currentButton.classList.add('active');
+
+            // Filtrar las tarjetas de productos renderizadas
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                // Buscamos el producto correspondiente en el array global usando un ID guardado en los atributos de la tarjeta
+                const cardId = card.getAttribute('data-id') || card.id;
+                const matchProduct = window.PRODUCTS?.find(p => p.id === cardId || cardId.includes(p.id));
+                
+                if (matchProduct) {
+                    if (category === 'all' || matchProduct.category === category) {
+                        card.style.display = 'grid';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
         setInterval(() => {
             moveSlide(1);
         }, 5000);
