@@ -105,6 +105,18 @@
         .whatsapp-fixed-btn:hover { transform: scale(1.1); }
         .whatsapp-fixed-btn svg { width: 30px; height: 30px; fill: currentColor; }
 
+        /* ESTILOS EXCLUSIVOS DEL MODAL DE POLÍTICAS */
+        .policies-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(4px); display: grid; place-items: center; padding: 1rem; z-index: 100; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+        .policies-overlay.active { opacity: 1; pointer-events: auto; }
+        .policies-modal { width: min(700px, 100%); background: #fff; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,.15); display: flex; flex-direction: column; max-height: 85vh; }
+        .policies-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid #f2f2f2; }
+        .policies-title { margin: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; font-family: 'Cormorant Garamond', serif; }
+        .policies-close { font-size: 1.75rem; color: #111; line-height: 1; cursor: pointer; }
+        .policies-content { padding: 1.5rem; overflow-y: auto; text-align: left; font-size: 0.9rem; line-height: 1.6; color: #333; }
+        .policies-content h5 { font-size: 0.95rem; text-transform: uppercase; margin: 1.5rem 0 0.5rem; color: #111; letter-spacing: 0.05em; border-bottom: 1px solid #f5f5f5; padding-bottom: 0.2rem; }
+        .policies-content ul { padding-left: 1.2rem; margin: 0 0 1rem; }
+        .policies-content li { margin-bottom: 0.4rem; }
+
         .no-scroll { overflow: hidden; }
 
         @media (max-width: 600px) {
@@ -195,6 +207,7 @@
                 <p><strong>WhatsApp:</strong> +57 300 123 4567</p>
             </div>
             <p class="footer-note">Soporte rápido y atención personalizada vía WhatsApp</p>
+            <button type="button" onclick="togglePolicies(true)" style="margin-top: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #777; border-bottom: 1px solid #ccc; padding-bottom: 2px; font-weight: 500;">Políticas de Compra y Garantía</button>
         </footer>
     </div>
 
@@ -231,6 +244,44 @@
         </div>
     </div>
 
+    <!-- VENTANA EMERGENTE: POLÍTICAS DE COMPRA -->
+    <div id="policies-overlay" class="policies-overlay" aria-hidden="true">
+        <div class="policies-modal">
+            <div class="policies-header">
+                <p class="policies-title">Políticas de Compra y Garantía — MARENE</p>
+                <span onclick="togglePolicies(false)" class="policies-close">&times;</span>
+            </div>
+            <div class="policies-content">
+                <p>En <strong>MARENE</strong> diseñamos y elaboramos cada pieza a mano mediante procesos artesanales de alta precisión. Al realizar tu compra, aceptas nuestros términos de servicio:</p>
+                
+                <h5>1. Producción Bajo Pedido</h5>
+                <p>Todos nuestros accesorios se confeccionan exclusivamente bajo pedido. El tiempo estimado de tejido te será comunicado al confirmar tu orden vía WhatsApp y variará según la complejidad y la cantidad de pedidos en proceso en el taller.</p>
+                
+                <h5>2. Gestión de Pagos</h5>
+                <ul>
+                    <li><strong>Anticipo:</strong> Se requiere un anticipo obligatorio del <strong>50% del valor total</strong> del producto para iniciar la fabricación.</li>
+                    <li><strong>Saldo:</strong> El 50% restante más el costo de envío debe liquidarse antes del despacho o en el momento de la entrega presencial acordada.</li>
+                    <li><strong>Medios autorizados:</strong> Transferencias a través de Nequi, Nu y efectivo en entregas locales.</li>
+                </ul>
+
+                <h5>3. Cambios y Cancelaciones</h5>
+                <p>Una vez recibido el anticipo y comenzada la manufactura, <strong>no se realizan reembolsos ni cancelaciones</strong>, ya que los recursos se invierten de inmediato en la compra de insumos. Los ajustes de diseño solo se evaluarán dentro de las primeras horas de la solicitud.</p>
+
+                <h5>4. Envíos y Rastreo</h5>
+                <p>Realizamos envíos asegurados a toda Colombia. Al despachar el paquete, te compartiremos el número de guía de la transportadora para su monitoreo en tiempo real.</p>
+
+                <h5>5. Daños en Transporte</h5>
+                <p>Si tu joya sufre daños en el traslado, debes reportarlo en las primeras 24 horas adjuntando fotografías claras de la caja o bolsa de seguridad externa sellada y del producto.</p>
+
+                <h5>6. Cobertura de Garantía</h5>
+                <p>Ofrecemos <strong>30 días de garantía</strong> por fallas técnicas latentes (cierres, costuras de hilos o uniones defectuosas). La garantía queda anulada por golpes, mal uso o contacto directo con agua, perfumes, cremas o químicos.</p>
+
+                <h5>7. Guía de Cuidado Esencial</h5>
+                <p>Para prolongar la vida útil de tus joyas: evita la humedad y el contacto con químicos, almacena cada pieza de forma individual en un entorno seco y límpiala usando únicamente un paño de microfibra seco.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRIPTS DE COMPORTAMIENTO -->
     <script src="js/data.js"></script>
     <script src="js/cart.js"></script>
@@ -263,14 +314,11 @@
 
         // Lógica de filtrado dinámico local
         function applyCategoryFilter(category, currentButton) {
-            // Alternar clases activas en los botones
             document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
             currentButton.classList.add('active');
 
-            // Filtrar las tarjetas de productos renderizadas
             const productCards = document.querySelectorAll('.product-card');
             productCards.forEach(card => {
-                // Buscamos el producto correspondiente en el array global usando un ID guardado en los atributos de la tarjeta
                 const cardId = card.getAttribute('data-id') || card.id;
                 const matchProduct = window.PRODUCTS?.find(p => p.id === cardId || cardId.includes(p.id));
                 
@@ -282,6 +330,18 @@
                     }
                 }
             });
+        }
+
+        // Lógica del Modal de Políticas
+        function togglePolicies(show) {
+            const overlay = document.getElementById('policies-overlay');
+            if(show) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         }
 
         setInterval(() => {
