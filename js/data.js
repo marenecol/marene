@@ -28,6 +28,7 @@ const PRODUCTS = [
         mainImage: 'assets/images/collar-aura-1.png',
         hoverImage: 'assets/images/collar-aura-2.png',
         images: ['assets/images/collar-aura-1.png', 'assets/images/collar-aura-2.png', 'assets/images/collar-aura-3.png'],
+        colors: ['#c8a97b', '#2f2a29', '#d9d2c7'],
         featured: true,
         new: true
     },
@@ -47,6 +48,7 @@ const PRODUCTS = [
         mainImage: 'assets/images/collar-luna-1.png',
         hoverImage: 'assets/images/collar-luna-2.png',
         images: ['assets/images/collar-luna-1.png', 'assets/images/collar-luna-2.png'],
+        colors: ['#e9d8be', '#6c6257', '#1d1a19'],
         featured: true,
         new: false
     }
