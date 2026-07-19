@@ -1,15 +1,16 @@
 window.PRODUCTS = [
     {
-        id: "cinturon-mostacilla-etnico",
-        name: "Cinturón Mostacilla Étnico",
-        price: 185000,
+        id: "cinturon-maria",
+        name: "Cinturón María",
+        price: 35000,
         category: "cinturones",
-        image: "assets/images/cinturon-mostacilla-etnico.png", 
-        description: "Pieza artesanal única tejida con delicadas mostacillas. Un diseño exclusivo de MARENE ideal para complementar tus prendas con elegancia y distinción.",
+        image: "assets/images/cinturon-front.jpg", 
+        description: "Exclusivo cinturón artesanal tejido a mano con un delicado patrón floral de perlas y mostacillas de alta calidad. Una pieza única y sutil de la colección MARENE, diseñada para añadir un toque distinguido y sofisticado a cualquier prenda.",
         features: [
-            "Tejido artesanal de alta precisión",
-            "Detalles de inspiración étnica",
-            "Ajuste cómodo y versátil"
+            "Referencia: MARIA",
+            "Tejido artesanalmente flor por flor",
+            "Elaborado con perlas delicadas y mostacillas seleccionadas",
+            "Incluye dije colgante floral ajustable"
         ]
     }
 ];
