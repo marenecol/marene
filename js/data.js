@@ -4,6 +4,7 @@ window.PRODUCTS = [
         name: "Cinturón María",
         price: 35000,
         category: "cinturones",
+        // Usamos la ruta que el modal lee perfectamente
         image: "assets/images/maria1.JPG", 
         images: [
             "assets/images/maria1.JPG",
@@ -13,7 +14,7 @@ window.PRODUCTS = [
         features: [
             "Referencia: MARIA",
             "Tejido artesanalmente flor por flor",
-            "Elaborado con perlas delicadas and mostacillas seleccionadas",
+            "Elaborado con perlas delicadas y mostacillas seleccionadas",
             "Incluye dije colgante floral ajustable"
         ]
     }
