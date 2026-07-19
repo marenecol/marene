@@ -2,7 +2,6 @@
 
 // Función para crear el HTML de la tarjeta de producto (Mantiene tu diseño intacto)
 window.createProductCardHTML = function(product) {
-    // Forzamos a que use la imagen de la lista si está disponible
     const imageUrl = (product.images && product.images.length > 0) ? product.images[0] : product.image;
     
     return `
@@ -18,13 +17,12 @@ window.createProductCardHTML = function(product) {
     `;
 };
 
-// Función para abrir el detalle del producto (Arregla la imagen grande del modal)
+// Función para abrir el detalle del producto (Mantiene tu diseño intacto)
 window.openProductDetail = function(productId) {
     if (!window.PRODUCTS) return;
     const product = window.PRODUCTS.find(p => p.id === productId);
     if (!product) return;
 
-    // Elementos del modal
     const modal = document.getElementById('product-detail-modal');
     const modalTitle = document.getElementById('modal-product-title');
     const modalPrice = document.getElementById('modal-product-price');
@@ -35,17 +33,14 @@ window.openProductDetail = function(productId) {
 
     if (!modal) return;
 
-    // Asignar textos básicos
     if (modalTitle) modalTitle.textContent = product.name;
     if (modalPrice) modalPrice.textContent = `$ ${product.price.toLocaleString('co-CO')}`;
     if (modalDescription) modalDescription.textContent = product.description;
 
-    // Configurar imagen principal del modal
     if (mainImg) {
         mainImg.src = (product.images && product.images.length > 0) ? product.images[0] : product.image;
     }
 
-    // Configurar las miniaturas de abajo
     if (thumbnailsContainer) {
         thumbnailsContainer.innerHTML = '';
         const imgsArray = product.images || [product.image];
@@ -71,7 +66,6 @@ window.openProductDetail = function(productId) {
         });
     }
 
-    // Configurar lista de especificaciones
     if (featuresList) {
         featuresList.innerHTML = '';
         if (product.features) {
@@ -83,12 +77,10 @@ window.openProductDetail = function(productId) {
         }
     }
 
-    // Mostrar el modal agregando la clase activa
     modal.classList.add('active');
     modal.style.display = 'flex';
 };
 
-// Función para cerrar el modal
 window.closeProductDetail = function() {
     const modal = document.getElementById('product-detail-modal');
     if (modal) {
@@ -97,14 +89,12 @@ window.closeProductDetail = function() {
     }
 };
 
-// Configurar el botón de cerrar del modal al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.querySelector('.modal-close');
     if (closeBtn) {
         closeBtn.addEventListener('click', window.closeProductDetail);
     }
     
-    // Cerrar si se hace clic fuera del contenido del modal
     const modal = document.getElementById('product-detail-modal');
     if (modal) {
         modal.addEventListener('click', (e) => {
