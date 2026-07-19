@@ -1,16 +1,15 @@
 window.PRODUCTS = [
     {
-        id: "cinturon-1",
-        name: "Cinturón de Macramé Esencial",
-        price: 85000, // Pon aquí el precio real (ejemplo: 85000 son $85.000 COP)
+        id: "cinturon-mostacilla-etnico",
+        name: "Cinturón Mostacilla Étnico",
+        price: 185000,
         category: "cinturones",
-        // Aquí indicamos la foto que tienes guardada en tu carpeta de imágenes
-        image: "assets/images/anillo-solitaire-1.png", 
-        description: "Cinturón artesanal tejido a mano con acabados minimalistas premium. Una pieza única diseñada para estilizar tu figura con elegancia.",
+        image: "assets/images/cinturon-mostacilla-etnico.png", 
+        description: "Pieza artesanal única tejida con delicadas mostacillas. Un diseño exclusivo de MARENE ideal para complementar tus prendas con elegancia y distinción.",
         features: [
-            "Hecho 100% a mano",
-            "Diseño sutil y minimalista",
-            "Ajustable a tu medida"
+            "Tejido artesanal de alta precisión",
+            "Detalles de inspiración étnica",
+            "Ajuste cómodo y versátil"
         ]
     }
 ];
