@@ -331,7 +331,7 @@
     <script src="js/cart.js"></script>
     <script src="js/main.js"></script>
     <script>
-       let currentSlideIndex = 0;
+        let currentSlideIndex = 0;
         const totalSlides = 3;
         
         function updateSlidePosition() {
@@ -356,7 +356,7 @@
             updateSlidePosition();
         }
 
-        // Función para renderizar los productos en la cuadrícula principal al cargar
+        // NUEVA: Función para renderizar los productos en la cuadrícula principal al cargar
         function initShopPage() {
             const grid = document.getElementById('product-grid');
             if (!grid || !window.PRODUCTS) return;
@@ -366,45 +366,6 @@
                 html += window.createProductCardHTML(product);
             });
             grid.innerHTML = html;
-        }
-
-        // NUEVA: Función adaptada para abrir el detalle elegante real de index.html
-        function openProductDetail(productId) {
-            if (!window.PRODUCTS) return;
-            const product = window.PRODUCTS.find(p => p.id === productId);
-            if (!product) return;
-
-            const overlay = document.getElementById('detail-overlay');
-            const content = document.querySelector('.detail-content');
-            if (!overlay || !content) return;
-
-            const imgUrl = (product.images && product.images.length > 0) ? product.images[0] : product.image;
-
-            content.innerHTML = `
-                <div>
-                    <img src="${imgUrl}" alt="${product.name}" style="width:100%; border-radius: 1rem; aspect-ratio: 1/1; object-fit: cover;">
-                </div>
-                <div style="text-align: left;">
-                    <h2 style="font-family: 'Cormorant Garamond', serif; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0;">${product.name}</h2>
-                    <p style="color: var(--accent-main); font-weight: 600; font-size: 1.3rem; margin: 0.5rem 0 1.5rem;">$ ${product.price.toLocaleString('co-CO')}</p>
-                    <p style="line-height: 1.6; color: #555; font-size: 0.95rem; margin-bottom: 1.5rem;">${product.description}</p>
-                    <ul style="padding-left: 1.2rem; line-height: 1.6; color: #555; font-size: 0.9rem;">
-                        ${(product.features || []).map(f => `<li style="margin-bottom: 0.4rem;">${f}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
-
-            overlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Evita el scroll de fondo
-        }
-
-        // NUEVA: Función para cerrar el detalle
-        function closeProductDetail() {
-            const overlay = document.getElementById('detail-overlay');
-            if (overlay) {
-                overlay.classList.add('hidden');
-                document.body.style.overflow = ''; // Devuelve el scroll
-            }
         }
 
         // Lógica de filtrado dinámico local
@@ -443,22 +404,12 @@
             moveSlide(1);
         }, 5000);
 
-        // Evento que arranca la tienda apenas carga la página y asigna el botón de cierre
+        // Evento que arranca la tienda apenas carga la página
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof initShopPage === 'function') {
                 initShopPage();
             }
-
-            const closeBtn = document.getElementById('detail-close');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeProductDetail);
-            }
-
-            // Cerrar también si se hace clic fuera del modal blanco
-            const overlay = document.getElementById('detail-overlay');
-            if (overlay) {
-                overlay.addEventListener('click', (e) => {
-                    if (e.target === overlay) closeProductDetail();
-                });
-            }
-        }); 
+        });
+    </script>
+</body>
+</html>
