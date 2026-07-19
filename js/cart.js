@@ -160,10 +160,11 @@ function updateCartUI() {
 
         let html = '';
         items.forEach(item => {
+            const cartImgUrl = (item.images && item.images.length > 0) ? item.images[0] : item.image;
             html += `
                 <div class="cart-item" data-id="${item.id}" data-color="${item.selectedColor}" style="display: flex; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #f2f2f2;">
                     <div class="cart-item-image" style="width: 70px; height: 70px; background: #f7f5f0; border-radius: 0.5rem; overflow: hidden;">
-                        <img src="${item.mainImage || ''}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="${cartImgUrl}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="cart-item-details" style="flex: 1;">
                         <div class="cart-item-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
