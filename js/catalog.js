@@ -333,6 +333,11 @@ function renderProductsGrid(products) {
     
     let html = '';
     products.forEach(product => {
+        // AJUSTE CLAVE: Corregimos la propiedad image del producto antes de enviarlo al HTML 
+        // para asegurar que use la primera foto de la lista (que sí tiene el .JPG correcto)
+        if (product.images && product.images.length > 0) {
+            product.image = product.images[0];
+        }
         html += window.createProductCardHTML(product);
     });
     grid.innerHTML = html;
