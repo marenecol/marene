@@ -4,7 +4,7 @@ window.PRODUCTS = [
         name: "Cinturón María",
         price: 35000,
         category: "cinturones",
-        image: "assets/images/cinturon-front.jpg", 
+        image: "assets/images/c4d4eabc-e392-494b-a632-729c9ffbd0f9.jpg", 
         description: "Exclusivo cinturón artesanal tejido a mano con un delicado patrón floral de perlas y mostacillas de alta calidad. Una pieza única y sutil de la colección MARENE, diseñada para añadir un toque distinguido y sofisticado a cualquier prenda.",
         features: [
             "Referencia: MARIA",
