@@ -199,7 +199,7 @@ function checkoutWhatsApp() {
     if (items.length === 0) return;
 
     const phoneNumber = '573169268672'; // Número real de WhatsApp Business para MARENE
-    let message = `✨ *NUEVO PEDIDO - MARENE* ✨\n\nHola, me gustaría realizar el siguiente pedido desde el carrito:\n\n`;
+    let message = ` *NUEVO PEDIDO - MARENE* \n\nHola, me gustaría realizar el siguiente pedido desde el carrito:\n\n`;
     
     items.forEach((item, index) => {
         message += `${index + 1}. *${item.name}*\n`;
