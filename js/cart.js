@@ -209,13 +209,13 @@ function checkoutWhatsApp() {
     });
     
     const total = getCartTotal();
-    message += `💰 *TOTAL A PAGAR:* ${formatCOP(total)}\n\n`;
-    message += `📝 *Datos de envío:*\n`;
+    message += ` *TOTAL A PAGAR:* ${formatCOP(total)}\n\n`;
+    message += ` *Datos de envío:*\n`;
     message += `- Nombre completo:\n`;
     message += `- Ciudad / Departamento:\n`;
     message += `- Dirección:\n`;
     message += `- Teléfono / WhatsApp:\n\n`;
-    message += `¿Me indicas los pasos para el pago? ¡Muchas gracias! 🤍`;
+    message += `¿Me indicas los pasos para el pago? ¡Muchas gracias! `;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -235,7 +235,7 @@ function buyProductWhatsApp(productId, quantity = 1, color = 'Único') {
     message += `- Color: ${color}\n`;
     message += `- Cantidad: ${quantity}\n`;
     message += `- Precio total: ${formatCOP(product.price * quantity)}\n\n`;
-    message += 'Por favor indícame los pasos para confirmar el envío y el pago. Gracias. 🤍';
+    message += 'Por favor indícame los pasos para confirmar el envío y el pago. Gracias. ';
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
