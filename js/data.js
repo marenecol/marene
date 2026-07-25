@@ -30,13 +30,13 @@ window.PRODUCTS = [
     },
     {
         id: "cinturon-AURA",
-        name: "Cinturón Murano & Perlas",
+        name: "Cinturón AURA",
         price: 40000,
         category: "cinturones",
         categoryLabel: "Cinturones",
-        image: "assets/images/cinturon-murano1.jpg", 
+        image: "assets/images/cinturonaura1.jpg", 
         images: [
-            "assets/images/cinturon-murano1.jpg"
+            "assets/images/cinturonaura2.jpg"
         ],
         colors: ["otro", "Dorado", "Plateado"],
         selectedColor: "Multicolor",
@@ -54,7 +54,7 @@ window.PRODUCTS = [
         price: 30000,
         category: "collares",
         categoryLabel: "Collares",
-        image: "assets/images/collar-collarmar.jpg", 
+        image: "assets/images/collarmar1.jpg", 
         images: [
             "assets/images/collar-collarmar.jpg"
         ],
