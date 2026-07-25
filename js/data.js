@@ -34,7 +34,7 @@ window.PRODUCTS = [
         price: 40000,
         category: "cinturones",
         categoryLabel: "Cinturones",
-        image: "assets/images/aura1.png", 
+        image: "assets/images/aura2.png", 
         images: [
             "assets/images/aura2.png",
             "assets/images/aura1.png"
@@ -55,7 +55,7 @@ window.PRODUCTS = [
         price: 30000,
         category: "collares",
         categoryLabel: "Collares",
-        image: "assets/images/mar2.png", 
+        image: "assets/images/mar1.png", 
         images: [
             "assets/images/mar1.png",
             "assets/images/mar2.png"
