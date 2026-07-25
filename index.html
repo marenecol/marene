@@ -231,7 +231,7 @@
         </main>
         
         <footer class="minimal-footer" id="footer">
-           <div class="footer-socials-text">
+            <div class="footer-socials-text">
                 <p><strong>Instagram:</strong> @marene_col</p>
                 <p><strong>TikTok:</strong> @marene_co</p>
                 <p><strong>WhatsApp:</strong> +57 316 926 8672</p>
@@ -350,39 +350,81 @@
             grid.innerHTML = html;
         }
 
-        // Abre el modal de detalle del producto (usa la estructura real de este HTML)
+        // Abre el modal de detalle del producto adaptado con selección de color y miniaturas múltiples
         function openProductDetail(productId) {
             if (!window.PRODUCTS) return;
             const product = window.PRODUCTS.find(p => p.id === productId);
             if (!product) return;
 
+            if (product.colors && !product.selectedColor) {
+                product.selectedColor = product.colors[0];
+            }
+
             const overlay = document.getElementById('detail-overlay');
             const content = document.querySelector('.detail-content');
             if (!overlay || !content) return;
 
-            const imgUrl = (product.images && product.images.length > 0) ? product.images[0] : product.image;
-            const thumbsHtml = (product.images || [product.image]).map((img, i) => `
+            const allImages = (product.images && product.images.length > 0) ? product.images : [product.image];
+            const mainImgUrl = allImages[0];
+
+            // Renderiza todas las miniaturas disponibles de la lista de imágenes
+            const thumbsHtml = allImages.map((img, i) => `
                 <img src="${img}" alt="${product.name} - vista ${i + 1}" style="width:60px; height:60px; object-fit:cover; border-radius:.5rem; margin-right:.5rem; cursor:pointer; border:2px solid ${i === 0 ? 'var(--accent-main)' : 'transparent'};" onclick="document.getElementById('detail-main-img').src='${img}'">
             `).join('');
 
+            // Genera las opciones de selección de color si existen
+            const colorsHtml = product.colors ? `
+                <div style="margin: 1rem 0;">
+                    <p style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; text-align: left;">Color disponible:</p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        ${product.colors.map(color => {
+                            const isActive = product.selectedColor === color;
+                            return `
+                                <button onclick="selectProductColor('${product.id}', '${color}', this)" style="padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 500; border: 1px solid ${isActive ? 'var(--accent-main)' : '#ccc'}; background: ${isActive ? 'var(--accent-muted)' : '#fff'}; color: var(--text-main); transition: all 0.2s; cursor: pointer;">
+                                    ${color}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            ` : '';
+
             content.innerHTML = `
                 <div>
-                    <img id="detail-main-img" src="${imgUrl}" alt="${product.name}" style="width:100%; border-radius: 1rem; aspect-ratio:1/1; object-fit:cover;">
-                    <div style="display:flex; margin-top:.75rem;">${thumbsHtml}</div>
+                    <img id="detail-main-img" src="${mainImgUrl}" alt="${product.name}" style="width:100%; border-radius: 1rem; aspect-ratio:1/1; object-fit:cover;">
+                    <div style="display:flex; margin-top:.75rem; overflow-x: auto; padding-bottom: 4px;">${thumbsHtml}</div>
                 </div>
                 <div>
-                    <h2 style="font-family:'Cormorant Garamond', serif; margin:0 0 .5rem; text-transform:uppercase;">${product.name}</h2>
-                    <p style="color: var(--accent-main); font-weight:700; font-size:1.3rem; margin:0 0 1rem;">$ ${product.price.toLocaleString('co-CO')}</p>
-                    <p style="line-height:1.6; color:#555;">${product.description}</p>
-                    <ul style="padding-left:1.2rem; color:#555; line-height:1.6;">
+                    <h2 style="font-family:'Cormorant Garamond', serif; margin:0 0 .5rem; text-transform:uppercase; text-align: left;">${product.name}</h2>
+                    <p style="color: var(--accent-main); font-weight:700; font-size:1.3rem; margin:0 0 1rem; text-align: left;">$ ${product.price.toLocaleString('co-CO')}</p>
+                    
+                    ${colorsHtml}
+
+                    <ul style="padding-left:1.2rem; color:#555; line-height:1.6; text-align: left; margin-top: 1rem;">
                         ${(product.features || []).map(f => `<li>${f}</li>`).join('')}
                     </ul>
-                    <button onclick="if(typeof addToCart==='function') addToCart('${product.id}', 1)" style="width:100%; margin-top:1rem; border-radius:999px; padding:1rem; background: var(--accent-main); color:#fff; font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:.85rem;">Añadir al carrito</button>
+                    <button onclick="if(typeof addToCart==='function') addToCart('${product.id}', 1, '${product.selectedColor || 'Único'}')" style="width:100%; margin-top:1.5rem; border-radius:999px; padding:1rem; background: var(--accent-main); color:#fff; font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:.85rem; cursor: pointer;">Añadir al carrito</button>
                 </div>
             `;
 
             overlay.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
+        }
+
+        // Gestiona el clic del color seleccionado
+        function selectProductColor(productId, colorName, buttonEl) {
+            const product = window.PRODUCTS.find(p => p.id === productId);
+            if (product) {
+                product.selectedColor = colorName;
+                
+                const parent = buttonEl.parentElement;
+                parent.querySelectorAll('button').forEach(btn => {
+                    btn.style.border = '1px solid #ccc';
+                    btn.style.background = '#fff';
+                });
+                buttonEl.style.border = '1px solid var(--accent-main)';
+                buttonEl.style.background = 'var(--accent-muted)';
+            }
         }
 
         // Cierra el modal de detalle
