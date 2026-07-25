@@ -42,7 +42,7 @@ window.PRODUCTS = [
         selectedColor: "Multicolor",
         description: "",
         features: [
-            "Referencia: CINTURÓN MAR",
+            "Referencia: CINTURÓN AURA",
             "Tejido artesanal a mano",
             "Elaborado con muranos, perlas y mostacillas",
             "Diseño sutil, elegante y ajustable"
@@ -54,7 +54,7 @@ window.PRODUCTS = [
         price: 30000,
         category: "collares",
         categoryLabel: "Collares",
-        image: "assets/images/collar-mostacillas1.jpg", 
+        image: "assets/images/collarmar.jpg", 
         images: [
             "assets/images/collar-mostacillas1.jpg"
         ],
