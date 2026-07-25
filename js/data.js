@@ -56,7 +56,7 @@ window.PRODUCTS = [
         categoryLabel: "Collares",
         image: "assets/images/collarmar1.jpg", 
         images: [
-            "assets/images/collar-collarmar.jpg"
+            "assets/images/collarmar1.jpg"
         ],
         colors: ["Blanco", "Dorado", "Rosa"],
         selectedColor: "Blanco",
