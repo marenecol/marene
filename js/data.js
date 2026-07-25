@@ -36,6 +36,7 @@ window.PRODUCTS = [
         categoryLabel: "Cinturones",
         image: "assets/images/aura1.png", 
         images: [
+            "assets/images/aura1.png",
             "assets/images/aura2.png"
         ],
         colors: ["otro", "Dorado", "Plateado"],
