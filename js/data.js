@@ -18,7 +18,7 @@ window.PRODUCTS = [
             "assets/images/maria1.JPG",
             "assets/images/maria2.JPG"
         ],
-        colors: ["Blanco", "Dorado"],
+        colors: ["Blanco", "Dorado", "Rojo", "Plateado", "otro"],
         selectedColor: "Blanco",
         description: "",
         features: [
@@ -34,13 +34,13 @@ window.PRODUCTS = [
         price: 40000,
         category: "cinturones",
         categoryLabel: "Cinturones",
-        image: "assets/images/aura2.png", 
+        image: "assets/images/aura1.png", 
         images: [
             "assets/images/aura2.png",
             "assets/images/aura1.png"
         ],
-        colors: ["Multicolor", "Dorado", "Plateado"],
-        selectedColor: "Multicolor",
+        colors: ["Blanco", "Dorado", "Rojo", "Plateado", "otro"],
+        selectedColor: "Dorado",
         description: "",
         features: [
             "Referencia: CINTURÓN AURA",
@@ -55,12 +55,12 @@ window.PRODUCTS = [
         price: 30000,
         category: "collares",
         categoryLabel: "Collares",
-        image: "assets/images/mar1.png", 
+        image: "assets/images/mar2.png", 
         images: [
             "assets/images/mar1.png",
             "assets/images/mar2.png"
         ],
-        colors: ["Blanco", "Dorado", "Rosa"],
+        colors: ["Blanco", "Dorado", "Rojo", "Plateado", "otro"],
         selectedColor: "Blanco",
         description: "",
         features: [
