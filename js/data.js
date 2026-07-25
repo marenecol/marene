@@ -34,12 +34,12 @@ window.PRODUCTS = [
         price: 40000,
         category: "cinturones",
         categoryLabel: "Cinturones",
-        image: "assets/images/aura1.png", 
+        image: "assets/images/aura2.png", 
         images: [
-            "assets/images/aura1.png",
-            "assets/images/aura2.png"
+            "assets/images/aura2.png",
+            "assets/images/aura1.png"
         ],
-        colors: ["otro", "Dorado", "Plateado"],
+        colors: ["Multicolor", "Dorado", "Plateado"],
         selectedColor: "Multicolor",
         description: "",
         features: [
@@ -57,6 +57,7 @@ window.PRODUCTS = [
         categoryLabel: "Collares",
         image: "assets/images/mar1.png", 
         images: [
+            "assets/images/mar1.png",
             "assets/images/mar2.png"
         ],
         colors: ["Blanco", "Dorado", "Rosa"],
@@ -65,7 +66,7 @@ window.PRODUCTS = [
         features: [
             "Referencia: COLLAR MAR",
             "Tejido artesanal a mano",
-            "Elaborado con mostacillas",
+            "Elaborado con mostacillas seleccionadas"
         ]
     }
 ];
