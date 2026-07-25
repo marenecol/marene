@@ -34,9 +34,9 @@ window.PRODUCTS = [
         price: 40000,
         category: "cinturones",
         categoryLabel: "Cinturones",
-        image: "assets/images/aura1.jpg", 
+        image: "assets/images/aura1.PNG", 
         images: [
-            "assets/images/aura2.jpg"
+            "assets/images/aura2.PNG"
         ],
         colors: ["otro", "Dorado", "Plateado"],
         selectedColor: "Multicolor",
@@ -54,9 +54,9 @@ window.PRODUCTS = [
         price: 30000,
         category: "collares",
         categoryLabel: "Collares",
-        image: "assets/images/mar1.jpg", 
+        image: "assets/images/mar1.PNG", 
         images: [
-            "assets/images/mar2.jpg"
+            "assets/images/mar2.PNG"
         ],
         colors: ["Blanco", "Dorado", "Rosa"],
         selectedColor: "Blanco",
