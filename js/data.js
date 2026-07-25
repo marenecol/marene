@@ -54,9 +54,9 @@ window.PRODUCTS = [
         price: 30000,
         category: "collares",
         categoryLabel: "Collares",
-        image: "assets/images/collarmar.jpg", 
+        image: "assets/images/collar-collarmar.jpg", 
         images: [
-            "assets/images/collar-mostacillas1.jpg"
+            "assets/images/collar-collarmar.jpg"
         ],
         colors: ["Blanco", "Dorado", "Rosa"],
         selectedColor: "Blanco",
