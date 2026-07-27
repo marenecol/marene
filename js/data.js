@@ -10,7 +10,7 @@ window.PRODUCTS = [
     {
         id: "cinturon-maria",
         name: "Cinturón María",
-        price: 35000,
+        price: 40000,
         category: "cinturones",
         categoryLabel: "Cinturones",
         image: "assets/images/maria1.JPG", 
